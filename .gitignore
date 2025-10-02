@@ -7,7 +7,12 @@ subset*/
 annotations.csv
 candidates_V2.csv
 
-
+# Model checkpoints - COMMENTED OUT TO INCLUDE MODELS IN REPO
+# If models are too large (>100MB), use Git LFS or upload to GitHub Releases
+# *.pth
+# *.pt
+# *.h5
+# *.pkl
 
 # Python
 __pycache__/
