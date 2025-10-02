@@ -10,7 +10,7 @@ git add .
 git commit -m "Initial commit: LUNA16 Lung Cancer Detection System"
 
 # Add remote (replace YOUR_USERNAME)
-git remote add origin https://github.com/YOUR_USERNAME/lung-cancer-detection.git
+git remote add origin https://github.com/YOUR_USERNAME/CAD-C.git
 
 # Push to GitHub
 git branch -M main
@@ -42,13 +42,17 @@ jupyter notebook
 ## 📦 Repository Structure
 
 ```
-lung-cancer-detection/
+CAD-C/
 ├── README.md                     # Start here!
 ├── QUICKSTART.md                # 5-minute setup
 ├── inference_ensemble.py        # Main inference script
-├── lung_cancer_resnet101.ipynb  # ResNet training
+├── lung_cancer_resnet101.ipynb  # ResNet training (94.44%)
+├── lung_cancer_efficientnet.ipynb  # EfficientNet (96.15% - Best!)
+├── lung_cancer_vgg16.ipynb      # VGG16 training (74.97%)
 ├── requirements.txt             # Dependencies
-└── models_resnet101/            # Trained model
+├── models_resnet101/            # ResNet model
+├── models_efficientnet/         # EfficientNet model
+└── models_vgg16/                # VGG16 model
 ```
 
 ---

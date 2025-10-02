@@ -41,7 +41,7 @@ Git LFS replaces large files with small pointer files in your Git repository. Th
 
 ### Step 1: Create Repository on GitHub
 1. Go to https://github.com/new
-2. Repository name: `lung-cancer-detection` or `CAD-C`
+2. Repository name: `CAD-C`
 3. Description: "Deep learning system for lung cancer detection"
 4. **Public** or **Private**
 5. **Do NOT** initialize with README
@@ -50,7 +50,7 @@ Git LFS replaces large files with small pointer files in your Git repository. Th
 ### Step 2: Add Remote and Push
 ```bash
 # Add your GitHub repository as remote
-git remote add origin https://github.com/YOUR_USERNAME/lung-cancer-detection.git
+git remote add origin https://github.com/YOUR_USERNAME/CAD-C.git
 
 # Push everything (code + models via LFS)
 git push -u origin main
@@ -70,8 +70,8 @@ When someone clones your repository:
 
 ```bash
 # Clone the repository (Git LFS downloads models automatically)
-git clone https://github.com/YOUR_USERNAME/lung-cancer-detection.git
-cd lung-cancer-detection
+git clone https://github.com/YOUR_USERNAME/CAD-C.git
+cd CAD-C
 
 # Models are automatically downloaded!
 # No extra steps needed
@@ -227,7 +227,7 @@ git lfs pull
 ### Final Commands:
 ```bash
 # If you haven't created the repository yet:
-git remote add origin https://github.com/YOUR_USERNAME/lung-cancer-detection.git
+git remote add origin https://github.com/YOUR_USERNAME/CAD-C.git
 git push -u origin main
 
 # That's it! Models will upload automatically via LFS

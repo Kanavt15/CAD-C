@@ -7,8 +7,8 @@ Get started with LUNA16 Lung Cancer Detection in 5 minutes!
 ### 1. Clone and Setup (2 minutes)
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/lung-cancer-detection.git
-cd lung-cancer-detection
+git clone https://github.com/Kanavt15/CAD-C.git
+cd CAD-C
 
 # Create virtual environment
 python -m venv venv_lung_cancer
@@ -24,9 +24,10 @@ pip install -r requirements.txt
 ```
 
 ### 2. Download Pre-trained Models (Optional)
-If you don't want to train from scratch:
-- Download pre-trained models from [Releases](https://github.com/yourusername/lung-cancer-detection/releases)
-- Extract to `models_resnet101/`, `models_efficientnet/`, `models_vgg16/`
+Models are automatically downloaded with Git LFS when you clone!
+- ResNet-101: 94.44% accuracy
+- EfficientNet-B0: 96.15% accuracy (Best!)
+- VGG16: Requires retraining
 
 ### 3. Test with External Image (30 seconds)
 ```bash
@@ -73,18 +74,23 @@ jupyter notebook
 **Expected Results:**
 - Training: ~2.75 minutes (with pre-extraction)
 - Test Accuracy: ~94%
-- AUC: ~0.97
+- AUC: ~0.98
 
-#### 3. Train EfficientNet-B0 (3-5 minutes)
+#### 3. Train EfficientNet-B0 (3-5 minutes) - **Best Performance!**
 ```bash
 # Open: lung_cancer_efficientnet.ipynb
 # Run all cells
 ```
 
-#### 4. Train VGG16 (7-12 minutes)
+**Expected Results:**
+- Training: ~2 minutes (with pre-extraction)  
+- Test Accuracy: ~96% (Best!)
+- AUC: ~0.99
+
+#### 4. VGG16 (Needs Retraining)
 ```bash
 # Open: lung_cancer_vgg16.ipynb
-# Run all cells
+# Note: Current model needs hyperparameter tuning
 ```
 
 ---
@@ -221,11 +227,11 @@ python inference_ensemble.py --image_path image.jpg --no-viz
 ## 📊 Performance Benchmarks
 
 ### Training Time (32 GB RAM, RTX 3060)
-| Model | Pre-extraction | Training | Total |
-|-------|---------------|----------|-------|
-| ResNet-101 | 7.5 min | 2.75 min | **~10 min** |
-| EfficientNet-B0 | 7.5 min | 1.5 min | **~9 min** |
-| VGG16 | 7.5 min | 4 min | **~12 min** |
+| Model | Pre-extraction | Training | Total | Accuracy |
+|-------|---------------|----------|-------|----------|
+| ResNet-101 | 7.5 min | 2.75 min | **~10 min** | 94.44% |
+| EfficientNet-B0 | 7.5 min | 2 min | **~9.5 min** | **96.15%** ⭐ |
+| VGG16 | 7.5 min | 4 min | **~12 min** | 74.97% ⚠️ |
 
 ### Inference Time (Single Image)
 | Model | GPU | CPU |
@@ -274,9 +280,9 @@ python inference_ensemble.py --image_path image.jpg --no-viz
 
 ## 🤝 Get Help
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/lung-cancer-detection/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/lung-cancer-detection/discussions)
-- **Email**: your.email@example.com
+- **Issues**: [GitHub Issues](https://github.com/Kanavt15/CAD-C/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Kanavt15/CAD-C/discussions)
+- **Repository**: [CAD-C](https://github.com/Kanavt15/CAD-C)
 
 ---
 

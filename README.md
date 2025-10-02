@@ -98,14 +98,14 @@ This project uses the **LUNA16 (Lung Nodule Analysis 2016)** dataset, a subset o
 - **Parameters**: 5.3M (8× smaller than ResNet-101)
 - **Depth**: Variable with compound scaling
 - **Strengths**: Efficient, fast inference, low memory usage
-- **Performance**: [To be updated after training]
+- **Performance**: 96.15% accuracy, 0.9853 AUC, 0.9241 F1
 - **Use Case**: Production deployment, mobile/edge devices
 
 ### 3. VGG16
 - **Parameters**: 138M
 - **Depth**: 16 layers with uniform 3×3 convolutions
 - **Strengths**: Simple architecture, excellent feature extraction
-- **Performance**: [To be updated after training]
+- **Performance**: 74.97% accuracy, 0.50 AUC, 0.00 F1 (requires retraining)
 - **Use Case**: Research, medical imaging baseline
 
 ### Ensemble Method
@@ -126,8 +126,8 @@ Combines all three models using:
 
 ### Step 1: Clone Repository
 ```bash
-git clone https://github.com/yourusername/lung-cancer-detection.git
-cd lung-cancer-detection
+git clone https://github.com/Kanavt15/CAD-C.git
+cd CAD-C
 ```
 
 ### Step 2: Create Virtual Environment
@@ -324,8 +324,8 @@ Cancer            23        211
 | Model | Parameters | Accuracy | AUC | F1 | Training Time | Inference Time |
 |-------|-----------|----------|-----|-----|---------------|----------------|
 | **ResNet-101** | 43.5M | 94.44% | 0.9772 | 0.8903 | ~2.75 min | ~8-12 ms |
-| **EfficientNet-B0** | 5.3M | TBD | TBD | TBD | TBD | ~5-8 ms |
-| **VGG16** | 138M | TBD | TBD | TBD | TBD | ~15-20 ms |
+| **EfficientNet-B0** | 5.3M | 96.15% | 0.9853 | 0.9241 | ~2 min | ~5-8 ms |
+| **VGG16** | 138M | 74.97% | 0.50 | 0.00 | ~4 min | ~15-20 ms |
 
 ### Training History
 ![Training History](models_resnet101/training_history.png)
@@ -456,21 +456,21 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Project Maintainer**: Kanav
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
+- GitHub: [@Kanavt15](https://github.com/Kanavt15)
+- Repository: [CAD-C](https://github.com/Kanavt15/CAD-C)
 
-**Project Link**: [https://github.com/yourusername/lung-cancer-detection](https://github.com/yourusername/lung-cancer-detection)
+**Project Link**: [https://github.com/Kanavt15/CAD-C](https://github.com/Kanavt15/CAD-C)
 
 ---
 
 ## 📈 Project Status
 
-- ✅ ResNet-101: **Trained & Tested** (94.44% accuracy)
-- 🔄 EfficientNet-B0: **Ready to train**
-- 🔄 VGG16: **Ready to train**
+- ✅ ResNet-101: **Trained & Tested** (94.44% accuracy, 0.9772 AUC)
+- ✅ EfficientNet-B0: **Trained & Tested** (96.15% accuracy, 0.9853 AUC) - **Best Model!**
+- ⚠️ VGG16: **Needs Retraining** (74.97% accuracy, requires hyperparameter tuning)
 - ✅ Inference Script: **Complete**
 - ✅ External Image Support: **Complete**
-- 📝 Documentation: **Complete**
+- ✅ Documentation: **Complete**
 
 ---
 
@@ -485,7 +485,7 @@ If you use this project in your research, please cite:
   year = {2025},
   publisher = {GitHub},
   journal = {GitHub repository},
-  howpublished = {\url{https://github.com/yourusername/lung-cancer-detection}}
+  howpublished = {\url{https://github.com/Kanavt15/CAD-C}}
 }
 ```
 

@@ -37,7 +37,7 @@ We are committed to providing a welcoming and inclusive environment for everyone
 Found a bug? Help us fix it:
 
 **Before submitting:**
-- Check if the bug was already reported in [Issues](https://github.com/yourusername/lung-cancer-detection/issues)
+- Check if the bug was already reported in [Issues](https://github.com/Kanavt15/CAD-C/issues)
 - Try to reproduce with the latest version
 - Gather relevant information (Python version, GPU/CPU, error messages)
 
@@ -114,11 +114,11 @@ Ready to code? Awesome!
 ```bash
 # Fork the repository on GitHub
 # Then clone your fork
-git clone https://github.com/YOUR_USERNAME/lung-cancer-detection.git
-cd lung-cancer-detection
+git clone https://github.com/YOUR_USERNAME/CAD-C.git
+cd CAD-C
 
 # Add upstream remote
-git remote add upstream https://github.com/ORIGINAL_OWNER/lung-cancer-detection.git
+git remote add upstream https://github.com/Kanavt15/CAD-C.git
 ```
 
 ### 2. Create Virtual Environment

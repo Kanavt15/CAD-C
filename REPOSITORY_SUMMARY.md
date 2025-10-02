@@ -127,7 +127,7 @@ git commit -m "Initial commit: LUNA16 Lung Cancer Detection System
 
 ### Step 3: Create GitHub Repository (2 minutes)
 1. Go to https://github.com/new
-2. Repository name: `lung-cancer-detection`
+2. Repository name: `CAD-C`
 3. Description: "Deep learning system for lung cancer detection using ResNet-101, EfficientNet-B0, and VGG16 on LUNA16 dataset"
 4. Choose Public or Private
 5. **DO NOT** initialize with README
@@ -136,7 +136,7 @@ git commit -m "Initial commit: LUNA16 Lung Cancer Detection System
 ### Step 4: Push to GitHub (1 minute)
 ```bash
 # Replace YOUR_USERNAME with your GitHub username
-git remote add origin https://github.com/YOUR_USERNAME/lung-cancer-detection.git
+git remote add origin https://github.com/YOUR_USERNAME/CAD-C.git
 git branch -M main
 git push -u origin main
 ```
@@ -174,7 +174,7 @@ git push -u origin main
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-red.svg)](https://pytorch.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/YOUR_USERNAME/lung-cancer-detection)](https://github.com/YOUR_USERNAME/lung-cancer-detection/stargazers)
+[![Stars](https://img.shields.io/github/stars/Kanavt15/CAD-C)](https://github.com/Kanavt15/CAD-C/stargazers)
 ```
 
 ### 2. Create First Release
@@ -266,7 +266,7 @@ Total:              ~5,500 lines
   year = {2025},
   publisher = {GitHub},
   journal = {GitHub repository},
-  howpublished = {\url{https://github.com/YOUR_USERNAME/lung-cancer-detection}}
+  howpublished = {\url{https://github.com/Kanavt15/CAD-C}}
 }
 ```
 
@@ -338,9 +338,9 @@ Before announcing your repository:
 ### How to Get Help
 - 📖 Read [README.md](README.md)
 - 🚀 Check [QUICKSTART.md](QUICKSTART.md)
-- 🔍 Search [Issues](https://github.com/YOUR_USERNAME/lung-cancer-detection/issues)
-- 💬 Ask in [Discussions](https://github.com/YOUR_USERNAME/lung-cancer-detection/discussions)
-- 📧 Email: your.email@example.com
+- 🔍 Search [Issues](https://github.com/Kanavt15/CAD-C/issues)
+- 💬 Ask in [Discussions](https://github.com/Kanavt15/CAD-C/discussions)
+- 📧 GitHub: @Kanavt15
 
 ### Maintenance Plan
 - ✅ Respond to issues within 3 days
@@ -400,8 +400,8 @@ git push -u origin main
 
 ### Then Share:
 **"I just open-sourced a deep learning system for lung cancer detection! 
-94.44% accuracy using ResNet-101, EfficientNet-B0, and VGG16. 
-Check it out: https://github.com/YOUR_USERNAME/lung-cancer-detection"**
+96.15% accuracy (EfficientNet-B0), 94.44% (ResNet-101) on LUNA16 dataset.
+Check it out: https://github.com/Kanavt15/CAD-C"**
 
 ---
 
