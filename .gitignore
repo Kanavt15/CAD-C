@@ -109,3 +109,85 @@ htmlcov/
 # Environment variables
 .env
 .env.local
+
+# ==== ENHANCED IGNORE PATTERNS FOR LUNG CANCER PROJECT ====
+
+# Cache and temporary processing files
+patch_cache*/
+*cache*/
+temp/
+tmp/
+.tmp/
+*_temp/
+*_cache/
+
+# Model optimization and analysis outputs
+optimal_thresholds.json
+threshold_results_*.csv
+threshold_analysis_*.png
+threshold_metrics_*.json
+*_optimization_*.json
+*_analysis_*.csv
+*_results_*.json
+*_threshold_*.json
+
+# Inference and processing outputs
+inference_results/
+prediction_outputs/
+test_outputs/
+batch_results/
+*_predictions.csv
+*_inference.png
+*_output.png
+*_result.png
+
+# Training artifacts and logs
+*.log
+logs/
+runs/
+tensorboard_logs/
+training_logs/
+checkpoints/
+*_history.csv
+*_metrics.json
+loss_curves/
+training_plots/
+*_plot.png
+*_curve.png
+
+# Model backup and experimental files
+*.backup
+*.old
+*_checkpoint_*.pth
+*_epoch_*.pth
+model_*.pkl.bak
+*_backup.pth
+*_test.pth
+*_experiment.pth
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+[Tt]humbs.db
+Thumbs.db
+desktop.ini
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.spyderproject
+.spyproject
+
+# Environment-specific files
+*.local
+local.py
+instance/
+.venv.bak/
+venv_backup/
