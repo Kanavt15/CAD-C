@@ -1,6 +1,6 @@
 # 🫁 LUNA16 Lung Cancer Detection System
 
-A comprehensive deep learning system for automated lung cancer detection using the LUNA16 dataset. This project implements and compares three state-of-the-art CNN architectures: **ResNet-101**, **EfficientNet-B0**, and **VGG16** for binary classification of lung nodules.
+A comprehensive deep learning system for automated lung cancer detection using the LUNA16 dataset. This project implements and compares state-of-the-art CNN architectures: **LUNA16-DenseNet**, **ResNet-101**, and **EfficientNet-B0** for binary classification of lung nodules.
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-red.svg)](https://pytorch.org/)
@@ -44,7 +44,7 @@ This project tackles the critical challenge of early lung cancer detection using
 ## ✨ Features
 
 ### Core Capabilities
-- ✅ **Multiple CNN Architectures**: ResNet-101, EfficientNet-B0, VGG16
+- ✅ **Multiple CNN Architectures**: LUNA16-DenseNet, ResNet-101, EfficientNet-B0
 - ✅ **Transfer Learning**: Pre-trained on ImageNet, fine-tuned for medical imaging
 - ✅ **Focal Loss**: Handles severe class imbalance (1:500 positive to negative ratio)
 - ✅ **Data Augmentation**: Random flips, rotations, and brightness adjustments
@@ -101,18 +101,18 @@ This project uses the **LUNA16 (Lung Nodule Analysis 2016)** dataset, a subset o
 - **Performance**: 96.15% accuracy, 0.9853 AUC, 0.9241 F1
 - **Use Case**: Production deployment, mobile/edge devices
 
-### 3. VGG16
-- **Parameters**: 138M
-- **Depth**: 16 layers with uniform 3×3 convolutions
-- **Strengths**: Simple architecture, excellent feature extraction
-- **Performance**: 74.97% accuracy, 0.50 AUC, 0.00 F1 (requires retraining)
-- **Use Case**: Research, medical imaging baseline
+### 3. LUNA16-DenseNet
+- **Parameters**: Custom DenseNet-169 architecture
+- **Training Data**: Real LUNA16 CT scan patches
+- **Strengths**: Medical data trained, high performance on real cases
+- **Performance**: F1-Score: 0.8071 on real medical data
+- **Use Case**: Primary model for clinical applications
 
 ### Ensemble Method
 Combines all three models using:
 - **Voting**: Majority vote among predictions
 - **Averaging**: Mean probability across models
-- **Weighted**: Custom weights per model
+- **Weighted**: Custom weights per model (LUNA16-DenseNet: 50%, ResNet-101: 30%, EfficientNet-B0: 20%)
 - **Agreement Score**: Confidence based on model consensus
 
 ---
@@ -178,7 +178,7 @@ CAD_C/
 │
 ├── lung_cancer_resnet101.ipynb        # ResNet-101 training notebook
 ├── lung_cancer_efficientnet.ipynb     # EfficientNet-B0 training notebook
-├── lung_cancer_vgg16.ipynb            # VGG16 training notebook
+├── lung_cancer_densenet.ipynb         # LUNA16-DenseNet training notebook
 │
 ├── inference_ensemble.py              # Multi-model inference script
 ├── test_external_image.py             # External image testing script
@@ -201,8 +201,8 @@ CAD_C/
 ├── models_efficientnet/               # EfficientNet-B0 trained model
 │   └── [similar structure]
 │
-├── models_vgg16/                      # VGG16 trained model
-│   └── [similar structure]
+├── models_densenet/                   # LUNA16-DenseNet trained model
+│   └── [LUNA16 real data trained model]
 │
 ├── inference_results/                 # Inference output visualizations
 │   ├── inference_*.png
@@ -233,9 +233,9 @@ jupyter notebook lung_cancer_resnet101.ipynb
 jupyter notebook lung_cancer_efficientnet.ipynb
 ```
 
-#### Train VGG16
+#### Train LUNA16-DenseNet
 ```bash
-jupyter notebook lung_cancer_vgg16.ipynb
+jupyter notebook lung_cancer_densenet.ipynb
 ```
 
 ### Inference (LUNA16 Dataset)
@@ -325,7 +325,7 @@ Cancer            23        211
 |-------|-----------|----------|-----|-----|---------------|----------------|
 | **ResNet-101** | 43.5M | 94.44% | 0.9772 | 0.8903 | ~2.75 min | ~8-12 ms |
 | **EfficientNet-B0** | 5.3M | 96.15% | 0.9853 | 0.9241 | ~2 min | ~5-8 ms |
-| **VGG16** | 138M | 74.97% | 0.50 | 0.00 | ~4 min | ~15-20 ms |
+| **LUNA16-DenseNet** | Custom | Real Data | Real Data | 0.8071 | Variable | ~40-50 ms |
 
 ### Training History
 ![Training History](models_resnet101/training_history.png)
@@ -466,9 +466,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📈 Project Status
 
 - ✅ ResNet-101: **Trained & Tested** (94.44% accuracy, 0.9772 AUC)
-- ✅ EfficientNet-B0: **Trained & Tested** (96.15% accuracy, 0.9853 AUC) - **Best Model!**
-- ⚠️ VGG16: **Needs Retraining** (74.97% accuracy, requires hyperparameter tuning)
-- ✅ Inference Script: **Complete**
+- ✅ EfficientNet-B0: **Trained & Tested** (96.15% accuracy, 0.9853 AUC)
+- ✅ LUNA16-DenseNet: **Trained & Optimized** (F1: 0.8071 on real medical data) - **Primary Model!**
+- ✅ Inference Script: **Complete with Threshold Optimization**
 - ✅ External Image Support: **Complete**
 - ✅ Documentation: **Complete**
 
