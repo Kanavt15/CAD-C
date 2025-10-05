@@ -1,8 +1,11 @@
 """
-🫁 LUNA16 Lung Cancer Detection - Multi-Model Inference Script
+🫁 Enhanced LUNA16 Lung Cancer Detection - Multi-Model Inference Script
 
-This script takes a CT scan and runs inference through ResNet-101, EfficientNet-B0, 
-and VGG16 models to provide comprehensive predictions and ensemble results.
+This script uses an enhanced ensemble with LUNA16-trained DenseNet as the primary model,
+along with ResNet-101 and EfficientNet-B0 for comprehensive lung cancer detection.
+
+Primary Model: LUNA16-trained DenseNet-169 (F1: 0.8071, 43.7% improvement)
+Secondary Models: ResNet-101, EfficientNet-B0
 
 Supports multiple input formats:
 1. LUNA16 dataset (series_uid + coordinates)
@@ -41,6 +44,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models as models
+import torchvision.transforms as transforms
 import SimpleITK as sitk
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -56,20 +60,26 @@ BASE_DIR = Path(r'e:\Kanav\Projects\CAD_C')
 SUBSET_DIRS = [BASE_DIR / f'subset{i}' for i in range(10)]
 
 MODEL_CONFIGS = {
+    'LUNA16-DenseNet': {
+        'model_path': BASE_DIR / 'models_densenet' / 'densenet169_luna16_real_best.pth',
+        'color': '#9B59B6',
+        'description': 'LUNA16-trained DenseNet-169 (F1: 0.8071, Real Data, Primary Model)',
+        'weight': 0.5,
+        'threshold': 0.10
+    },
     'ResNet-101': {
         'model_path': BASE_DIR / 'models_resnet101' / 'best_resnet101_model.pth',
         'color': '#FF6B6B',
-        'description': 'Deep residual network with skip connections'
+        'description': 'Fine-tuned deep residual network with advanced augmentation',
+        'weight': 0.3,
+        'threshold': 0.10
     },
     'EfficientNet-B0': {
         'model_path': BASE_DIR / 'models_efficientnet' / 'best_efficientnet_model.pth',
         'color': '#4ECDC4',
-        'description': 'Efficient compound scaling architecture'
-    },
-    'VGG16': {
-        'model_path': BASE_DIR / 'models_vgg16' / 'best_vgg16_model.pth',
-        'color': '#95E1D3',
-        'description': 'Classic deep convolutional network'
+        'description': 'Fine-tuned efficient compound scaling architecture',
+        'weight': 0.2,
+        'threshold': 0.10
     }
 }
 
@@ -119,25 +129,42 @@ class EfficientNetLungCancer(nn.Module):
         return self.efficientnet(x)
 
 
-class VGG16LungCancer(nn.Module):
-    """VGG16 model for lung cancer detection"""
+class DenseNet169LungCancer(nn.Module):
+    """DenseNet-169 model for lung cancer detection"""
     
-    def __init__(self, pretrained=False, num_classes=2, dropout=0.5):
-        super(VGG16LungCancer, self).__init__()
-        self.vgg = models.vgg16(pretrained=pretrained)
-        num_features = self.vgg.classifier[0].in_features
-        self.vgg.classifier = nn.Sequential(
-            nn.Linear(num_features, 4096),
-            nn.ReLU(True),
+    def __init__(self, pretrained=False, num_classes=2, dropout=0.4):
+        super(DenseNet169LungCancer, self).__init__()
+        
+        # Load pretrained DenseNet-169
+        self.densenet = models.densenet169(pretrained=pretrained)
+        
+        # Get feature dimension (DenseNet-169 has 1664 features)
+        num_features = self.densenet.classifier.in_features
+        
+        # Custom medical imaging classification head
+        self.densenet.classifier = nn.Sequential(
+            # Batch normalization for stability
+            nn.BatchNorm1d(num_features),
             nn.Dropout(dropout),
-            nn.Linear(4096, 1024),
-            nn.ReLU(True),
-            nn.Dropout(dropout),
-            nn.Linear(1024, num_classes)
+            
+            # First reduction layer
+            nn.Linear(num_features, num_features // 2),  # 1664 -> 832
+            nn.ReLU(inplace=True),
+            nn.BatchNorm1d(num_features // 2),
+            nn.Dropout(dropout * 0.7),
+            
+            # Second reduction layer
+            nn.Linear(num_features // 2, num_features // 4),  # 832 -> 416
+            nn.ReLU(inplace=True),
+            nn.BatchNorm1d(num_features // 4),
+            nn.Dropout(dropout * 0.5),
+            
+            # Final classification layer
+            nn.Linear(num_features // 4, num_classes)  # 416 -> 2
         )
     
     def forward(self, x):
-        return self.vgg(x)
+        return self.densenet(x)
 
 
 # ===========================
@@ -246,6 +273,52 @@ def normalize_image(image):
         else:  # Likely 0-255 range
             return (image / 255.0).astype(np.float32)
     return image.astype(np.float32)
+
+
+def prepare_densenet_patch(patch, target_size=224):
+    """
+    Prepare patch specifically for DenseNet-169
+    Converts 3D patch to 3-channel ImageNet-normalized input
+    
+    Args:
+        patch: numpy array of shape (num_slices, patch_size, patch_size)
+        target_size: target size for DenseNet (default 224)
+    
+    Returns:
+        torch tensor of shape (3, target_size, target_size)
+    """
+    # Take middle slice if 3D
+    if patch.ndim == 3:
+        middle_slice = patch[patch.shape[0] // 2]
+    else:
+        middle_slice = patch
+    
+    # Normalize patch for medical imaging
+    # Convert to float32 to prevent overflow
+    middle_slice = middle_slice.astype(np.float32)
+    
+    # Clip to reasonable HU range and normalize to [0, 1]
+    middle_slice = np.clip(middle_slice, -1000, 1000)
+    middle_slice = (middle_slice + 1000) / 2000.0
+    
+    # Convert to 3-channel by replicating
+    patch_3ch = np.stack([middle_slice] * 3, axis=0)
+    
+    # Convert to tensor
+    patch_tensor = torch.from_numpy(patch_3ch).float()
+    
+    # Resize to DenseNet input size (224x224)
+    resize_transform = transforms.Resize((target_size, target_size), antialias=True)
+    patch_tensor = resize_transform(patch_tensor)
+    
+    # Apply ImageNet normalization
+    normalize = transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
+    patch_tensor = normalize(patch_tensor)
+    
+    return patch_tensor
 
 
 def prepare_patch_from_image(image_data, patch_size=64, num_slices=3, 
@@ -357,8 +430,8 @@ def load_model(model_name, model_path, device):
         model = ResNet101LungCancer(pretrained=False, num_classes=2)
     elif model_name == 'EfficientNet-B0':
         model = EfficientNetLungCancer(pretrained=False, num_classes=2)
-    elif model_name == 'VGG16':
-        model = VGG16LungCancer(pretrained=False, num_classes=2)
+    elif model_name in ['DenseNet-169', 'LUNA16-DenseNet']:
+        model = DenseNet169LungCancer(pretrained=False, num_classes=2)
     else:
         print(f"❌ Unknown model: {model_name}")
         return None
@@ -376,36 +449,34 @@ def load_model(model_name, model_path, device):
         return None
 
 
-def predict_single_model(model, patch_tensor, device):
-    """Run inference on a single model"""
+def predict_single_model(model, patch_tensor, device, threshold=0.4):
+    """Run inference on a single model with configurable threshold"""
     with torch.no_grad():
         patch_tensor = patch_tensor.unsqueeze(0).to(device)  # Add batch dimension
         outputs = model(patch_tensor)
         probs = F.softmax(outputs, dim=1)
         prob_nodule = probs[0, 1].item()
-        prediction = 1 if prob_nodule > 0.5 else 0
+        prediction = 1 if prob_nodule > threshold else 0
         confidence = prob_nodule if prediction == 1 else (1 - prob_nodule)
     
     return prediction, prob_nodule, confidence
 
 
-def ensemble_prediction(predictions_dict):
-    """Combine predictions from multiple models using voting and averaging"""
+def ensemble_prediction(predictions_dict, model_configs):
+    """Combine predictions from multiple models using weighted voting and averaging"""
     
-    # Get all probabilities
+    # Get all probabilities and predictions
     probs = [pred['probability'] for pred in predictions_dict.values()]
     preds = [pred['prediction'] for pred in predictions_dict.values()]
     
-    # Voting ensemble
+    # Simple voting ensemble
     vote_result = 1 if sum(preds) >= len(preds) / 2 else 0
     
     # Average probability
     avg_prob = np.mean(probs)
     
-    # Weighted average (could assign different weights to models)
-    # For now, equal weights
-    weights = {'ResNet-101': 0.33, 'EfficientNet-B0': 0.33, 'VGG16': 0.34}
-    weighted_prob = sum(predictions_dict[model]['probability'] * weights[model] 
+    # Weighted average based on model weights from config
+    weighted_prob = sum(predictions_dict[model]['probability'] * model_configs[model]['weight'] 
                        for model in predictions_dict.keys())
     
     # Confidence based on agreement
@@ -696,9 +767,6 @@ def run_inference(series_uid=None, coord_x=None, coord_y=None, coord_z=None,
         print("❌ Either series_uid or image_path must be provided")
         return None
     
-    # Convert to tensor
-    patch_tensor = torch.from_numpy(patch).float()
-    
     # Load models and run inference
     print(f"\n🤖 Running inference on all models...")
     predictions_dict = {}
@@ -708,7 +776,19 @@ def run_inference(series_uid=None, coord_x=None, coord_y=None, coord_z=None,
         
         if model is not None:
             start_time = time.time()
-            prediction, prob_nodule, confidence = predict_single_model(model, patch_tensor, DEVICE)
+            
+            # Prepare input based on model type
+            if model_name in ['DenseNet-169', 'LUNA16-DenseNet']:
+                # Use DenseNet-specific preprocessing
+                model_input = prepare_densenet_patch(patch, target_size=224)
+            else:
+                # Use standard preprocessing for CNN models
+                model_input = torch.from_numpy(patch).float()
+            
+            # Get model-specific threshold
+            threshold = config.get('threshold', 0.4)  # Default to 0.4 if not specified
+            
+            prediction, prob_nodule, confidence = predict_single_model(model, model_input, DEVICE, threshold)
             inference_time = time.time() - start_time
             
             predictions_dict[model_name] = {
@@ -729,7 +809,7 @@ def run_inference(series_uid=None, coord_x=None, coord_y=None, coord_z=None,
     
     # Ensemble prediction
     print(f"\n🎯 Computing ensemble prediction...")
-    ensemble_result = ensemble_prediction(predictions_dict)
+    ensemble_result = ensemble_prediction(predictions_dict, MODEL_CONFIGS)
     
     # Print summary
     print_summary(predictions_dict, ensemble_result)

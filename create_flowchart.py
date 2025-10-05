@@ -83,7 +83,7 @@ ax.text(5, 5.5, '🤖 DEEP LEARNING MODELS', fontsize=14, fontweight='bold', ha=
 models = [
     ('ResNet-101\n44.5M params', 2, 4.2, '#FF6B6B'),
     ('EfficientNet-B0\n5.3M params', 5, 4.2, '#4ECDC4'),
-    ('VGG16\n138M params', 8, 4.2, '#95E1D3'),
+    ('LUNA16-DenseNet\nReal Data Trained', 8, 4.2, '#9B59B6'),
 ]
 
 for label, x, y, color in models:

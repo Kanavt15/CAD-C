@@ -1,0 +1,37 @@
+{
+  "model_info": {
+    "primary_model": "luna16_densenet",
+    "primary_model_f1": 0.8071469551676091,
+    "training_data": "LUNA16_real_patches",
+    "ensemble_version": "2.0_enhanced",
+    "creation_date": "2025-10-05"
+  },
+  "model_weights": {
+    "luna16_densenet": 0.5,
+    "resnet101": 0.3,
+    "efficientnet": 0.2
+  },
+  "model_paths": {
+    "luna16_densenet": "e:\\Kanav\\Projects\\CAD_C\\models_densenet\\densenet169_luna16_real_best.pth",
+    "resnet101": "models_resnet101/best_resnet101_model.pth",
+    "efficientnet": "models_efficientnet/best_efficientnet_model.pth"
+  },
+  "performance_metrics": {
+    "luna16_densenet": {
+      "f1_score": 0.8071469551676091,
+      "accuracy": 0.803030303030303,
+      "precision": 0.8205128205128205,
+      "recall": 0.803030303030303,
+      "auc": 0.856404958677686
+    }
+  },
+  "inference_settings": {
+    "image_size": [
+      224,
+      224
+    ],
+    "confidence_threshold": 0.7,
+    "batch_size": 16,
+    "device": "cuda"
+  }
+}
