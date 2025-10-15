@@ -21,9 +21,16 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Configuration
 UPLOAD_FOLDER = 'uploads'
-MODELS_DIR = 'models_efficientnet'
-DENSENET_DIR = 'models_densenet'
-RESNET_DIR = 'models_resnet101'
+# Updated paths for reorganized structure
+MODELS_DIR = '../models/models_efficientnet'
+DENSENET_DIR = '../models/models_densenet'
+RESNET_DIR = '../models/models_resnet101'
+
+# Classification threshold
+# Probability threshold for cancer classification
+# If cancerous probability >= THRESHOLD -> Classified as Cancerous
+# If cancerous probability < THRESHOLD -> Classified as Non-Cancerous
+CANCER_THRESHOLD = 0.5  # 50% (Original default threshold)
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
@@ -34,6 +41,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 # Device configuration - Force CPU to avoid CUDA compatibility issues
 device = torch.device('cpu')
 print(f"Using device: {device}")
+print(f"Cancer classification threshold: {CANCER_THRESHOLD * 100}%")
 
 # Image preprocessing
 def normalize_hu(image):
@@ -256,8 +264,18 @@ def preprocess_image(image_file):
     except Exception as e:
         raise Exception(f"Error preprocessing image: {str(e)}")
 
-def predict_with_model(model, img_tensor, model_name):
-    """Make prediction with a specific model"""
+def predict_with_model(model, img_tensor, model_name, threshold=0.65):
+    """
+    Make prediction with a specific model
+    
+    Args:
+        model: The neural network model
+        img_tensor: Input image tensor
+        model_name: Name of the model
+        threshold: Probability threshold for cancerous classification (default: 0.65)
+                  Above this threshold -> Cancerous
+                  Below this threshold -> Non-Cancerous
+    """
     try:
         print(f"    Input tensor shape for {model_name}: {img_tensor.shape}")
         
@@ -278,20 +296,26 @@ def predict_with_model(model, img_tensor, model_name):
             
             outputs = model(model_input)
             probabilities = torch.softmax(outputs, dim=1)
-            predicted_class = torch.argmax(probabilities, dim=1).item()
-            confidence = probabilities[0][predicted_class].item()
+            
+            # Get probability of cancerous class
+            cancerous_prob = probabilities[0][1].item()
+            
+            # Apply threshold: if cancerous probability >= threshold, classify as Cancerous
+            predicted_class = 1 if cancerous_prob >= threshold else 0
+            confidence = cancerous_prob * 100 if predicted_class == 1 else (1 - cancerous_prob) * 100
             
             result = {
                 'model': model_name,
                 'prediction': 'Cancerous' if predicted_class == 1 else 'Non-Cancerous',
-                'confidence': float(confidence * 100),
+                'confidence': float(confidence),
                 'probabilities': {
                     'non_cancerous': float(probabilities[0][0].item() * 100),
                     'cancerous': float(probabilities[0][1].item() * 100)
-                }
+                },
+                'threshold': float(threshold * 100)
             }
             
-            print(f"    Result: {result['prediction']} ({result['confidence']:.2f}%)")
+            print(f"    Result: {result['prediction']} ({result['confidence']:.2f}%) [Threshold: {threshold*100}%]")
             return result
             
     except Exception as e:
@@ -354,7 +378,7 @@ def predict():
         for model_name in selected_models:
             if model_name in models_dict:
                 print(f"  Predicting with {model_name}...")
-                result = predict_with_model(models_dict[model_name], img_tensor, model_name)
+                result = predict_with_model(models_dict[model_name], img_tensor, model_name, threshold=CANCER_THRESHOLD)
                 results.append(result)
                 print(f"  {model_name} result: {result.get('prediction', 'ERROR')}")
             else:
@@ -377,8 +401,10 @@ def predict():
             print("Calculating ensemble prediction...")
             avg_cancerous = np.mean([r['probabilities']['cancerous'] for r in valid_results])
             avg_non_cancerous = np.mean([r['probabilities']['non_cancerous'] for r in valid_results])
-            ensemble_pred = 'Cancerous' if avg_cancerous > avg_non_cancerous else 'Non-Cancerous'
-            ensemble_confidence = max(avg_cancerous, avg_non_cancerous)
+            
+            # Apply same threshold for ensemble prediction
+            ensemble_pred = 'Cancerous' if avg_cancerous >= (CANCER_THRESHOLD * 100) else 'Non-Cancerous'
+            ensemble_confidence = avg_cancerous if ensemble_pred == 'Cancerous' else avg_non_cancerous
             
             ensemble = {
                 'model': 'ensemble',
@@ -387,9 +413,11 @@ def predict():
                 'probabilities': {
                     'non_cancerous': float(avg_non_cancerous),
                     'cancerous': float(avg_cancerous)
-                }
+                },
+                'threshold': float(CANCER_THRESHOLD * 100)
             }
             results.append(ensemble)
+            print(f"  Ensemble result: {ensemble_pred} (Cancerous: {avg_cancerous:.2f}%, Threshold: {CANCER_THRESHOLD*100}%)")
         
         print(f"Returning {len(results)} results")
         response = jsonify({

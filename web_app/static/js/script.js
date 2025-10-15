@@ -1,7 +1,7 @@
 // API Configuration
 const API_URL = 'http://localhost:5000';
 
-// DOM Elements
+// DOM Elements - with null checks
 const imageInput = document.getElementById('imageInput');
 const uploadArea = document.getElementById('uploadArea');
 const previewContainer = document.getElementById('previewContainer');
@@ -10,6 +10,18 @@ const analyzeBtn = document.getElementById('analyzeBtn');
 const loadingIndicator = document.getElementById('loadingIndicator');
 const resultsCard = document.getElementById('resultsCard');
 const resultsContainer = document.getElementById('resultsContainer');
+
+// Verify critical elements exist
+if (!imageInput || !uploadArea || !analyzeBtn || !loadingIndicator || !resultsCard) {
+    console.error('Critical DOM elements missing! Check HTML IDs.');
+    console.log('Elements found:', {
+        imageInput: !!imageInput,
+        uploadArea: !!uploadArea,
+        analyzeBtn: !!analyzeBtn,
+        loadingIndicator: !!loadingIndicator,
+        resultsCard: !!resultsCard
+    });
+}
 
 // State
 let selectedImage = null;
@@ -21,6 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupEventListeners() {
+    if (!imageInput || !uploadArea || !analyzeBtn) {
+        console.error('Cannot setup event listeners - elements missing');
+        return;
+    }
+    
     // File input change
     imageInput.addEventListener('change', handleImageSelect);
     
@@ -130,10 +147,10 @@ async function analyzeImage() {
         return;
     }
     
-    // Show loading
-    loadingIndicator.style.display = 'block';
-    analyzeBtn.disabled = true;
-    resultsCard.style.display = 'none';
+    // Show loading - with safety checks
+    if (loadingIndicator) loadingIndicator.style.display = 'block';
+    if (analyzeBtn) analyzeBtn.disabled = true;
+    if (resultsCard) resultsCard.style.display = 'none';
     
     try {
         // Prepare form data
@@ -163,7 +180,9 @@ async function analyzeImage() {
             
             // Scroll to results
             setTimeout(() => {
-                resultsCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (resultsCard) {
+                    resultsCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }, 300);
         } else {
             throw new Error(data.error || 'Analysis failed');
@@ -172,19 +191,25 @@ async function analyzeImage() {
         console.error('Analysis Error:', error);
         showNotification(`Analysis failed: ${error.message}`, 'error');
     } finally {
-        loadingIndicator.style.display = 'none';
-        analyzeBtn.disabled = false;
+        if (loadingIndicator) loadingIndicator.style.display = 'none';
+        if (analyzeBtn) analyzeBtn.disabled = false;
     }
 }
 
 // Display Results
 function displayResults(results) {
     console.log('Displaying results:', results);
+    
+    if (!resultsContainer) {
+        console.error('Results container not found!');
+        return;
+    }
+    
     resultsContainer.innerHTML = '';
     
     if (!results || results.length === 0) {
         resultsContainer.innerHTML = '<p style="color: var(--text-light);">No results to display.</p>';
-        resultsCard.style.display = 'block';
+        if (resultsCard) resultsCard.style.display = 'block';
         return;
     }
     
@@ -203,7 +228,7 @@ function displayResults(results) {
         }
     });
     
-    resultsCard.style.display = 'block';
+    if (resultsCard) resultsCard.style.display = 'block';
     console.log('Results card displayed');
 }
 
@@ -248,6 +273,13 @@ function createResultCard(result) {
             <div class="result-confidence">
                 Confidence: <strong>${confidence.toFixed(2)}%</strong>
             </div>
+            
+            ${result.threshold ? `
+            <div class="threshold-info" style="font-size: 0.85em; color: var(--text-light); margin: 8px 0; padding: 6px 12px; background: rgba(255,255,255,0.05); border-radius: 6px;">
+                <i class="fas fa-ruler-horizontal"></i> Classification Threshold: <strong>${result.threshold}%</strong>
+                <br><span style="font-size: 0.9em;">(≥ ${result.threshold}% cancerous probability → Cancerous)</span>
+            </div>
+            ` : ''}
             
             <div class="confidence-bar">
                 <div class="confidence-fill ${confidenceLevel}" style="width: ${confidence}%"></div>

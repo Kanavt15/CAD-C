@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lung Cancer Detection System - AI-Powered Analysis</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫁</text></svg>">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -122,7 +124,7 @@
             </section>
 
             <!-- Results Section -->
-            <section id="results" class="results-section card" id="resultsCard" style="display: none;">
+            <section id="resultsCard" class="results-section card" style="display: none;">
                 <h2><i class="fas fa-chart-bar"></i> Analysis Results</h2>
                 <div id="resultsContainer"></div>
             </section>
@@ -132,21 +134,15 @@
                 <div class="card visualization-card">
                     <h2><i class="fas fa-cube"></i> Interactive 3D Lung Anatomy</h2>
                     <p class="visualization-description">
-                        Explore the 3D lung model below. You can rotate, zoom, and interact with the visualization to understand lung anatomy and cancer locations.
+                        <strong>Immerse yourself in a detailed 3D lung model.</strong> Rotate, zoom, and explore the anatomy to better understand lung structure and potential cancer locations. Use the controls below to navigate the model.
                     </p>
                     <div class="sketchfab-embed-wrapper">
                         <iframe 
                             title="Lung cancer 3D Model" 
                             frameborder="0" 
-                            allowfullscreen 
-                            mozallowfullscreen="true" 
-                            webkitallowfullscreen="true" 
                             allow="autoplay; fullscreen; xr-spatial-tracking" 
-                            xr-spatial-tracking 
-                            execution-while-out-of-viewport 
-                            execution-while-not-rendered 
-                            web-share 
-                            src="https://sketchfab.com/models/df80810b0ee74d52813176165c51721c/embed?autostart=1&ui_theme=dark"
+                            allowfullscreen
+                            src="https://sketchfab.com/models/df80810b0ee74d52813176165c51721c/embed?autostart=1&autospin=0.2&preload=1&ui_theme=dark&ui_hint=0&ui_infos=0&ui_inspector=0&ui_watermark_link=0&ui_watermark=0&ui_ar=0&ui_help=0&ui_settings=0&ui_vr=0&ui_fullscreen=0&ui_annotations=0&ui_stop=0&ui_fadeout=1&transparent=1&ui_loading=0&ui_start=0&camera=0"
                             class="sketchfab-iframe"
                             loading="lazy">
                         </iframe>
@@ -154,35 +150,17 @@
                     <div class="visualization-controls">
                         <div class="control-tip">
                             <i class="fas fa-mouse"></i>
-                            <span><strong>Left Click + Drag:</strong> Rotate</span>
+                            <span><strong>Left Click + Drag:</strong> Rotate Model</span>
                         </div>
                         <div class="control-tip">
                             <i class="fas fa-hand-paper"></i>
-                            <span><strong>Right Click + Drag:</strong> Pan</span>
+                            <span><strong>Right Click + Drag:</strong> Pan View</span>
                         </div>
                         <div class="control-tip">
                             <i class="fas fa-search-plus"></i>
                             <span><strong>Scroll:</strong> Zoom In/Out</span>
                         </div>
                     </div>
-                    <p class="sketchfab-credit">
-                        3D Model: 
-                        <a href="https://sketchfab.com/3d-models/lung-cancer-df80810b0ee74d52813176165c51721c?utm_medium=embed&utm_campaign=share-popup&utm_content=df80810b0ee74d52813176165c51721c" 
-                           target="_blank" 
-                           rel="nofollow">
-                            Lung cancer
-                        </a> by 
-                        <a href="https://sketchfab.com/Ebers?utm_medium=embed&utm_campaign=share-popup&utm_content=df80810b0ee74d52813176165c51721c" 
-                           target="_blank" 
-                           rel="nofollow">
-                            Ebers
-                        </a> on 
-                        <a href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=df80810b0ee74d52813176165c51721c" 
-                           target="_blank" 
-                           rel="nofollow">
-                            Sketchfab
-                        </a>
-                    </p>
                 </div>
             </section>
 
