@@ -1,20 +1,25 @@
 # LUNA16 Lung Cancer Detection - .gitignore
 
-# Dataset files (too large for GitHub)
-subset*/
-*.mhd
-*.raw
-annotations.csv
-candidates_V2.csv
+# ===== Dataset Files (Large Files) =====
+# LUNA16 raw data
+data/raw/subset*/
+data/raw/*.mhd
+data/raw/*.raw
+data/raw/annotations.csv
+data/raw/candidates_V2.csv
 
-# Model checkpoints - COMMENTED OUT TO INCLUDE MODELS IN REPO
-# If models are too large (>100MB), use Git LFS or upload to GitHub Releases
-# *.pth
-# *.pt
-# *.h5
-# *.pkl
+# Processed data cache
+data/processed/patch_cache_enhanced/
+data/processed/inference_results/
 
-# Python
+# ===== Model Checkpoints =====
+# Uncomment if models are too large (>100MB), use Git LFS or GitHub Releases
+# models/**/*.pth
+# models/**/*.pt
+# models/**/*.h5
+# models/**/*.pkl
+
+# ===== Python =====
 __pycache__/
 *.py[cod]
 *$py.class
@@ -39,15 +44,18 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# Virtual Environment
+# ===== Virtual Environment =====
 venv/
 venv_lung_cancer/
+.venv/
 ENV/
 env/
-.venv
 
-# Jupyter Notebook
+# ===== Jupyter Notebook =====
 .ipynb_checkpoints
+notebooks/.ipynb_checkpoints/
+
+# ===== IDEs and Editors =====
 */.ipynb_checkpoints/*
 
 # PyCharm
@@ -75,21 +83,32 @@ $RECYCLE.BIN/
 *.msp
 *.lnk
 
-# Training outputs
+# ===== Training Outputs =====
 *.log
 logs/
 training_logs/
 tensorboard_logs/
+models/**/training_history.csv
+models/**/training_history.png
 
-# Temporary files
+# ===== Temporary Files =====
 *.tmp
 *.temp
 *.swp
 *.swo
 *~
 
-# Results and visualizations (optional - uncomment if you want to exclude)
-# inference_results/
+# ===== Web Application =====
+web_app/uploads/*
+!web_app/uploads/.gitkeep
+web_app/__pycache__/
+
+# ===== Test Results =====
+# Uncomment to exclude results from version control
+# data/processed/inference_results/
+# models/**/confusion_matrix.png
+# models/**/roc_curve.png
+# models/**/precision_recall_curve.png
 # *.png
 # *.jpg
 # *.jpeg

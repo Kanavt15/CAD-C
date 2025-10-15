@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lung Cancer Detection System - AI-Powered Analysis</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫁</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-lungs"></i>
+                    <h1>Lung Cancer Detection System</h1>
+                </div>
+                <nav class="nav">
+                    <a href="#upload" class="nav-link">Upload</a>
+                    <a href="#models" class="nav-link">Models</a>
+                    <a href="#visualization" class="nav-link">3D Visualization</a>
+                    <a href="#results" class="nav-link">Results</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Advanced AI-Powered Lung Cancer Detection</h2>
+                <p>Utilizing state-of-the-art deep learning models: DenseNet169, EfficientNet-B0, and ResNet101</p>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-brain"></i>
+                        <h3>3 AI Models</h3>
+                        <p>Ensemble Learning</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>High Accuracy</h3>
+                        <p>Validated Performance</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>Fast Results</h3>
+                        <p>Real-time Analysis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Upload and Models Section -->
+            <section id="upload" class="upload-section card">
+                <h2><i class="fas fa-upload"></i> Upload Medical Image</h2>
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-placeholder">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag and drop your medical image here</p>
+                        <p class="upload-hint">or</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('imageInput').click()">
+                            <i class="fas fa-folder-open"></i> Browse Files
+                        </button>
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                        <p class="upload-info">Supported formats: JPG, PNG, DICOM</p>
+                    </div>
+                    <div class="preview-container" id="previewContainer" style="display: none;">
+                        <img id="imagePreview" alt="Preview">
+                        <button class="btn btn-secondary btn-small" onclick="clearImage()">
+                            <i class="fas fa-times"></i> Remove
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Model Selection -->
+                <div id="models" class="model-selection">
+                    <h3><i class="fas fa-robot"></i> Select Models for Analysis</h3>
+                    <div class="model-options">
+                        <label class="model-checkbox">
+                            <input type="checkbox" name="model" value="densenet" checked>
+                            <span class="checkmark"></span>
+                            <div class="model-info">
+                                <strong>DenseNet169</strong>
+                                <p>Dense connections for feature propagation</p>
+                            </div>
+                        </label>
+                        <label class="model-checkbox">
+                            <input type="checkbox" name="model" value="efficientnet" checked>
+                            <span class="checkmark"></span>
+                            <div class="model-info">
+                                <strong>EfficientNet-B0</strong>
+                                <p>Optimized accuracy and efficiency</p>
+                            </div>
+                        </label>
+                        <label class="model-checkbox">
+                            <input type="checkbox" name="model" value="resnet101" checked>
+                            <span class="checkmark"></span>
+                            <div class="model-info">
+                                <strong>ResNet101</strong>
+                                <p>Deep residual learning framework</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Analyze Button -->
+                <button class="btn btn-primary btn-large btn-analyze" id="analyzeBtn" disabled>
+                    <i class="fas fa-microscope"></i> Analyze Image
+                </button>
+
+                <!-- Loading Indicator -->
+                <div class="loading" id="loadingIndicator" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Analyzing image with AI models...</p>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="resultsCard" class="results-section card" style="display: none;">
+                <h2><i class="fas fa-chart-bar"></i> Analysis Results</h2>
+                <div id="resultsContainer"></div>
+            </section>
+
+            <!-- 3D Visualization Section -->
+            <section id="visualization" class="visualization-section">
+                <div class="card visualization-card">
+                    <h2><i class="fas fa-cube"></i> Interactive 3D Lung Anatomy</h2>
+                    <p class="visualization-description">
+                        <strong>Immerse yourself in a detailed 3D lung model.</strong> Rotate, zoom, and explore the anatomy to better understand lung structure and potential cancer locations. Use the controls below to navigate the model.
+                    </p>
+                    <div class="sketchfab-embed-wrapper">
+                        <iframe 
+                            title="Lung cancer 3D Model" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; xr-spatial-tracking" 
+                            allowfullscreen
+                            src="https://sketchfab.com/models/df80810b0ee74d52813176165c51721c/embed?autostart=1&autospin=0.2&preload=1&ui_theme=dark&ui_hint=0&ui_infos=0&ui_inspector=0&ui_watermark_link=0&ui_watermark=0&ui_ar=0&ui_help=0&ui_settings=0&ui_vr=0&ui_fullscreen=0&ui_annotations=0&ui_stop=0&ui_fadeout=1&transparent=1&ui_loading=0&ui_start=0&camera=0"
+                            class="sketchfab-iframe"
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                    <div class="visualization-controls">
+                        <div class="control-tip">
+                            <i class="fas fa-mouse"></i>
+                            <span><strong>Left Click + Drag:</strong> Rotate Model</span>
+                        </div>
+                        <div class="control-tip">
+                            <i class="fas fa-hand-paper"></i>
+                            <span><strong>Right Click + Drag:</strong> Pan View</span>
+                        </div>
+                        <div class="control-tip">
+                            <i class="fas fa-search-plus"></i>
+                            <span><strong>Scroll:</strong> Zoom In/Out</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Information Section -->
+            <section class="info-section">
+                <div class="card">
+                    <h2><i class="fas fa-info-circle"></i> About This System</h2>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Medical Grade AI</h3>
+                            <p>Our models are trained on extensive medical datasets to provide accurate lung cancer detection assistance.</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-users-cog"></i>
+                            <h3>Ensemble Approach</h3>
+                            <p>Multiple models work together to provide more reliable predictions through consensus.</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-lock"></i>
+                            <h3>Privacy First</h3>
+                            <p>All image processing is done securely, and no data is stored permanently.</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-stethoscope"></i>
+                            <h3>Clinical Support</h3>
+                            <p>This tool is designed to assist healthcare professionals in their diagnostic process.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Disclaimer -->
+            <section class="disclaimer">
+                <div class="card warning-card">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Medical Disclaimer</h3>
+                    <p>This system is intended for research and educational purposes only. It should not be used as a substitute for professional medical advice, diagnosis, or treatment. Always consult with qualified healthcare providers for medical decisions.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <i class="fas fa-lungs"></i>
+                    <p>&copy; 2025 Lung Cancer Detection System. Advanced AI for Medical Imaging.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#"><i class="fas fa-file-medical"></i> Documentation</a>
+                    <a href="#"><i class="fas fa-code"></i> GitHub</a>
+                    <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
