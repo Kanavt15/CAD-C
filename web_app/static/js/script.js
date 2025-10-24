@@ -48,12 +48,6 @@ function setupEventListeners() {
     
     // Analyze button
     analyzeBtn.addEventListener('click', analyzeImage);
-    
-    // Model checkboxes
-    const modelCheckboxes = document.querySelectorAll('input[name="model"]');
-    modelCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateAnalyzeButton);
-    });
 }
 
 // API Health Check
@@ -128,22 +122,13 @@ function clearImage() {
 
 function updateAnalyzeButton() {
     const hasImage = selectedImage !== null;
-    const hasSelectedModel = Array.from(document.querySelectorAll('input[name="model"]:checked')).length > 0;
-    analyzeBtn.disabled = !(hasImage && hasSelectedModel);
+    analyzeBtn.disabled = !hasImage;
 }
 
 // Analysis
 async function analyzeImage() {
     if (!selectedImage) {
         showNotification('Please select an image first.', 'error');
-        return;
-    }
-    
-    const selectedModels = Array.from(document.querySelectorAll('input[name="model"]:checked'))
-        .map(cb => cb.value);
-    
-    if (selectedModels.length === 0) {
-        showNotification('Please select at least one model.', 'error');
         return;
     }
     
@@ -156,9 +141,6 @@ async function analyzeImage() {
         // Prepare form data
         const formData = new FormData();
         formData.append('image', selectedImage);
-        selectedModels.forEach(model => {
-            formData.append('models[]', model);
-        });
         
         // Make API request
         const response = await fetch(`${API_URL}/api/predict`, {
@@ -234,8 +216,21 @@ function displayResults(results) {
 
 function createResultCard(result) {
     const isCancerous = result.prediction === 'Cancerous';
+    const isSuspicious = result.prediction && result.prediction.includes('Suspicious');
+    const isNonCancerous = !isCancerous && !isSuspicious;
     const isEnsemble = result.model === 'ensemble';
     const confidence = result.confidence;
+    
+    // Determine prediction class for styling
+    let predictionClass = 'non-cancerous';
+    let predictionIcon = 'fa-check-circle';
+    if (isCancerous) {
+        predictionClass = 'cancerous';
+        predictionIcon = 'fa-exclamation-circle';
+    } else if (isSuspicious) {
+        predictionClass = 'suspicious';
+        predictionIcon = 'fa-exclamation-triangle';
+    }
     
     let confidenceLevel = 'high';
     if (confidence < 70) confidenceLevel = 'medium';
@@ -263,21 +258,36 @@ function createResultCard(result) {
                     ${modelNames[result.model] || result.model}
                 </h3>
                 ${isEnsemble ? '<span class="badge badge-primary">Ensemble</span>' : ''}
+                ${isSuspicious ? '<span class="badge badge-suspicious">Needs Review</span>' : ''}
             </div>
             
-            <div class="result-prediction ${isCancerous ? 'cancerous' : 'non-cancerous'}">
-                <i class="fas ${isCancerous ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+            <div class="result-prediction ${predictionClass}">
+                <i class="fas ${predictionIcon}"></i>
                 ${result.prediction}
             </div>
+            
+            ${result.warning ? `
+            <div class="warning-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div class="warning-message-content">
+                    <strong>Medical Review Required</strong>
+                    <p>${result.warning}</p>
+                </div>
+            </div>
+            ` : ''}
             
             <div class="result-confidence">
                 Confidence: <strong>${confidence.toFixed(2)}%</strong>
             </div>
             
             ${result.threshold ? `
-            <div class="threshold-info" style="font-size: 0.85em; color: var(--text-light); margin: 8px 0; padding: 6px 12px; background: rgba(255,255,255,0.05); border-radius: 6px;">
-                <i class="fas fa-ruler-horizontal"></i> Classification Threshold: <strong>${result.threshold}%</strong>
-                <br><span style="font-size: 0.9em;">(≥ ${result.threshold}% cancerous probability → Cancerous)</span>
+            <div class="threshold-info" style="font-size: 0.85em; color: var(--text-light); margin: 8px 0; padding: 8px 14px; background: rgba(255,255,255,0.05); border-radius: 8px; border-left: 3px solid var(--primary-color);">
+                <i class="fas fa-chart-line"></i> <strong>Classification System:</strong>
+                <br><span style="font-size: 0.9em; margin-top: 4px; display: block;">
+                    • ≥${result.threshold}%: <span style="color: #dc2626;">Cancerous</span><br>
+                    • 25-${result.threshold}%: <span style="color: #ea580c;">Suspicious (Possible Cancer)</span><br>
+                    • <25%: <span style="color: #059669;">Non-Cancerous</span>
+                </span>
             </div>
             ` : ''}
             

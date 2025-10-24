@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Lung Cancer Detection System</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫁</text></svg>">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-lungs"></i>
+                    <span>LungAI</span>
+                </div>
+                <div class="nav-links">
+                    <a href="landing.html" class="nav-link">Home</a>
+                    <a href="analyze.html" class="nav-link">Analyze</a>
+                    <a href="about.html" class="nav-link active">About</a>
+                    <a href="analyze.html" class="btn btn-primary">
+                        <i class="fas fa-microscope"></i> Start Detection
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <h1>About <span class="gradient-text">LungAI</span></h1>
+            <p class="hero-subtitle">Advancing Medical Imaging with Deep Learning Technology</p>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission-section">
+        <div class="container">
+            <div class="mission-grid">
+                <div class="mission-image">
+                    <div class="image-placeholder">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                </div>
+                <div class="mission-content">
+                    <h2>Our Mission</h2>
+                    <p>
+                        We're committed to revolutionizing lung cancer detection through the power of 
+                        artificial intelligence and deep learning. Our advanced 3D CNN technology aims 
+                        to provide healthcare professionals with accurate, reliable, and efficient tools 
+                        for early cancer detection.
+                    </p>
+                    <p>
+                        By combining cutting-edge computer vision, medical imaging expertise, and 
+                        state-of-the-art neural networks, we're helping save lives through earlier 
+                        and more accurate diagnosis.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section id="technology" class="technology-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>The <span class="gradient-text">Technology</span> Behind LungAI</h2>
+                <p>Advanced deep learning architecture powering our detection system</p>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-header">
+                        <div class="tech-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3>3D CNN Architecture</h3>
+                    </div>
+                    <p>
+                        Our Improved 3D Convolutional Neural Network analyzes entire volumetric data, 
+                        not just 2D slices. This provides comprehensive spatial understanding of lung 
+                        structures and potential nodules.
+                    </p>
+                    <ul class="tech-features">
+                        <li><i class="fas fa-check"></i> Volumetric analysis (64×64×64 patches)</li>
+                        <li><i class="fas fa-check"></i> Multi-scale feature extraction</li>
+                        <li><i class="fas fa-check"></i> Hierarchical learning</li>
+                    </ul>
+                </div>
+
+                <div class="tech-card">
+                    <div class="tech-header">
+                        <div class="tech-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h3>Residual Connections</h3>
+                    </div>
+                    <p>
+                        Inspired by ResNet architecture, our model uses skip connections to enable 
+                        training of very deep networks. This prevents vanishing gradients and allows 
+                        for superior feature learning.
+                    </p>
+                    <ul class="tech-features">
+                        <li><i class="fas fa-check"></i> Deep network training (100+ layers)</li>
+                        <li><i class="fas fa-check"></i> Gradient flow optimization</li>
+                        <li><i class="fas fa-check"></i> Identity mapping shortcuts</li>
+                    </ul>
+                </div>
+
+                <div class="tech-card">
+                    <div class="tech-header">
+                        <div class="tech-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Squeeze-Excitation Blocks</h3>
+                    </div>
+                    <p>
+                        SE blocks add channel-wise attention mechanisms, allowing the network to 
+                        dynamically recalibrate channel-wise feature responses. This enhances the 
+                        model's representational power.
+                    </p>
+                    <ul class="tech-features">
+                        <li><i class="fas fa-check"></i> Adaptive feature recalibration</li>
+                        <li><i class="fas fa-check"></i> Channel interdependencies</li>
+                        <li><i class="fas fa-check"></i> Enhanced discrimination</li>
+                    </ul>
+                </div>
+
+                <div class="tech-card">
+                    <div class="tech-header">
+                        <div class="tech-icon">
+                            <i class="fas fa-crosshairs"></i>
+                        </div>
+                        <h3>Optimized Thresholding</h3>
+                    </div>
+                    <p>
+                        Our three-tier classification system uses carefully optimized thresholds 
+                        (32% for cancer, 25-32% for suspicious) to maximize sensitivity while 
+                        maintaining diagnostic utility.
+                    </p>
+                    <ul class="tech-features">
+                        <li><i class="fas fa-check"></i> 83% recall rate</li>
+                        <li><i class="fas fa-check"></i> Three-tier classification</li>
+                        <li><i class="fas fa-check"></i> Medical screening optimized</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Model Performance -->
+    <section class="performance-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Model <span class="gradient-text">Performance</span></h2>
+                <p>Validated metrics from extensive testing</p>
+            </div>
+
+            <div class="performance-grid">
+                <div class="performance-card">
+                    <div class="performance-visual">
+                        <div class="circular-progress" data-value="83">
+                            <svg viewBox="0 0 200 200">
+                                <circle cx="100" cy="100" r="90" />
+                                <circle cx="100" cy="100" r="90" class="progress" />
+                            </svg>
+                            <div class="percentage">83%</div>
+                        </div>
+                    </div>
+                    <h3>Accuracy</h3>
+                    <p>Overall classification accuracy on test dataset</p>
+                </div>
+
+                <div class="performance-card">
+                    <div class="performance-visual">
+                        <div class="circular-progress" data-value="67">
+                            <svg viewBox="0 0 200 200">
+                                <circle cx="100" cy="100" r="90" />
+                                <circle cx="100" cy="100" r="90" class="progress" />
+                            </svg>
+                            <div class="percentage">0.67</div>
+                        </div>
+                    </div>
+                    <h3>F1 Score</h3>
+                    <p>Balanced precision-recall harmonic mean</p>
+                </div>
+
+                <div class="performance-card">
+                    <div class="performance-visual">
+                        <div class="circular-progress" data-value="83">
+                            <svg viewBox="0 0 200 200">
+                                <circle cx="100" cy="100" r="90" />
+                                <circle cx="100" cy="100" r="90" class="progress" />
+                            </svg>
+                            <div class="percentage">83%</div>
+                        </div>
+                    </div>
+                    <h3>Recall</h3>
+                    <p>Sensitivity for detecting cancer cases</p>
+                </div>
+
+                <div class="performance-card">
+                    <div class="performance-visual">
+                        <div class="circular-progress" data-value="55">
+                            <svg viewBox="0 0 200 200">
+                                <circle cx="100" cy="100" r="90" />
+                                <circle cx="100" cy="100" r="90" class="progress" />
+                            </svg>
+                            <div class="percentage">55%</div>
+                        </div>
+                    </div>
+                    <h3>Precision</h3>
+                    <p>Positive predictive value</p>
+                </div>
+            </div>
+
+            <div class="performance-note">
+                <i class="fas fa-info-circle"></i>
+                <p>
+                    <strong>Note:</strong> The model is optimized for high recall (sensitivity) to minimize 
+                    false negatives in medical screening scenarios. The three-tier classification system 
+                    (Cancerous ≥32%, Suspicious 25-32%, Non-Cancerous <25%) provides additional safety margins.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="use-cases-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Clinical <span class="gradient-text">Applications</span></h2>
+                <p>How healthcare professionals can leverage our technology</p>
+            </div>
+
+            <div class="use-cases-grid">
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Screening Programs</h3>
+                    <p>
+                        Assist in large-scale lung cancer screening initiatives, helping radiologists 
+                        prioritize cases that require immediate attention and reducing workload.
+                    </p>
+                </div>
+
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3>Second Opinion</h3>
+                    <p>
+                        Provide a computational second opinion for radiologists, enhancing diagnostic 
+                        confidence and reducing the risk of missed detections.
+                    </p>
+                </div>
+
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Medical Education</h3>
+                    <p>
+                        Train medical students and residents on lung nodule detection, providing 
+                        instant feedback and learning opportunities.
+                    </p>
+                </div>
+
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3>Research Tool</h3>
+                    <p>
+                        Support clinical research studies requiring automated, consistent lung 
+                        nodule detection and classification.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <section class="disclaimer-section">
+        <div class="container">
+            <div class="disclaimer-card">
+                <div class="disclaimer-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="disclaimer-content">
+                    <h3>Important Medical Disclaimer</h3>
+                    <p>
+                        This AI system is designed for <strong>research and educational purposes only</strong>. 
+                        It is not FDA-approved and should <strong>not be used as the sole basis for clinical 
+                        decision-making</strong>. All results must be interpreted by qualified healthcare 
+                        professionals in conjunction with other clinical findings, patient history, and 
+                        additional diagnostic tests.
+                    </p>
+                    <p>
+                        This tool is intended to assist, not replace, professional medical judgment. 
+                        Always consult with licensed physicians and radiologists for diagnosis and treatment decisions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <i class="fas fa-lungs"></i>
+                        <span>LungAI</span>
+                    </div>
+                    <p class="footer-description">
+                        Advanced AI-powered lung cancer detection system using state-of-the-art 
+                        deep learning technology for medical imaging analysis.
+                    </p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="landing.html">Home</a></li>
+                        <li><a href="analyze.html">Analyze</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="#technology">Technology</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-file-alt"></i> Documentation</a></li>
+                        <li><a href="#"><i class="fas fa-code"></i> GitHub</a></li>
+                        <li><a href="#"><i class="fas fa-book"></i> Research</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> info@lungai.medical</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Medical AI Research Center</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 LungAI Detection System. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/about.js"></script>
+</body>
+</html>
