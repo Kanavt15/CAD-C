@@ -452,25 +452,6 @@ body {
     border-radius: 20px;
     padding: 2rem;
     margin-bottom: 2rem;
-    transition: all 0.3s ease;
-}
-
-.model-info-card:hover {
-    border-color: var(--neon-cyan);
-    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-/* Featured model card (DenseNet - best performing) */
-.model-info-card-featured {
-    background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
-    border: 2px solid var(--neon-cyan);
-    box-shadow: 0 4px 24px rgba(0, 212, 255, 0.15);
-}
-
-.model-info-card-featured:hover {
-    border-color: var(--neon-purple);
-    box-shadow: 0 12px 40px rgba(0, 212, 255, 0.3);
 }
 
 .model-header {
@@ -539,81 +520,6 @@ body {
     background: var(--glass-bg);
     border-left: 4px solid var(--neon-cyan);
     border-radius: 12px;
-}
-
-/* Model Selection Checkbox */
-.model-checkbox {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    accent-color: var(--neon-cyan);
-}
-
-/* Model Badge (NEW) */
-.model-badge {
-    padding: 0.35rem 0.75rem;
-    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 800;
-    border-radius: 20px;
-    margin-left: auto;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.8;
-        transform: scale(1.05);
-    }
-}
-
-/* Model Selection Note */
-.model-selection-note {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1.5rem;
-    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
-    border: 2px solid var(--neon-cyan);
-    border-radius: 16px;
-    margin-top: 1.5rem;
-}
-
-.model-selection-note i {
-    font-size: 1.8rem;
-    color: var(--neon-cyan);
-    flex-shrink: 0;
-    margin-top: 0.2rem;
-}
-
-.model-selection-note div {
-    flex: 1;
-}
-
-.model-selection-note strong {
-    color: var(--neon-cyan);
-    font-size: 1.1rem;
-}
-
-.model-selection-note ul {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-}
-
-.model-selection-note ul li {
-    margin-bottom: 0.4rem;
-}
-
-.model-selection-note ul li strong {
-    color: var(--text-primary);
-    font-size: 0.95rem;
 }
 
 /* ==================== BUTTONS ==================== */

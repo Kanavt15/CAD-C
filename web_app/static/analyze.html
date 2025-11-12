@@ -64,101 +64,35 @@
 
                 <!-- Model Information -->
                 <div id="models" class="model-selection">
-                    <h3><i class="fas fa-robot"></i> AI Models Available</h3>
-                    
-                    <!-- Model 1: ResNet3D -->
+                    <h3><i class="fas fa-robot"></i> AI Model Information</h3>
                     <div class="model-info-card">
                         <div class="model-header">
-                            <input type="checkbox" id="modelResNet" class="model-checkbox" checked>
                             <i class="fas fa-cube"></i>
-                            <strong>ResNet3D with SE Blocks</strong>
+                            <strong>Improved 3D CNN with Residual + SE Blocks</strong>
                         </div>
                         <div class="model-details">
                             <div class="model-detail-item">
                                 <i class="fas fa-check-circle"></i>
-                                <span><strong>Test Accuracy:</strong> 83.3%</span>
+                                <span><strong>Accuracy:</strong> 83.3%</span>
                             </div>
                             <div class="model-detail-item">
                                 <i class="fas fa-balance-scale"></i>
                                 <span><strong>F1 Score:</strong> 0.67</span>
                             </div>
                             <div class="model-detail-item">
-                                <i class="fas fa-search"></i>
-                                <span><strong>Recall:</strong> 83% (High sensitivity)</span>
-                            </div>
-                            <div class="model-detail-item">
-                                <i class="fas fa-bullseye"></i>
-                                <span><strong>Precision:</strong> ~55%</span>
-                            </div>
-                            <div class="model-detail-item">
-                                <i class="fas fa-sliders-h"></i>
-                                <span><strong>Threshold:</strong> 32% (Sensitivity optimized)</span>
-                            </div>
-                            <div class="model-detail-item">
                                 <i class="fas fa-layer-group"></i>
-                                <span><strong>Architecture:</strong> Residual + SE Attention</span>
+                                <span><strong>Architecture:</strong> Residual Blocks with SE Attention</span>
+                            </div>
+                            <div class="model-detail-item">
+                                <i class="fas fa-cube"></i>
+                                <span><strong>Input:</strong> 64×64×64 3D Patches</span>
                             </div>
                         </div>
                         <p class="model-description">
-                            <strong>High-sensitivity model</strong> with residual connections and Squeeze-and-Excitation blocks. 
-                            Uses a <strong>lower 32% threshold</strong> to catch more potential cases (better to flag for review than miss).
-                            <em>Best for: Initial screening where high recall is critical.</em>
+                            This advanced model uses residual connections for deeper learning and 
+                            Squeeze-and-Excitation blocks for channel-wise attention, achieving 
+                            superior performance in lung nodule detection.
                         </p>
-                    </div>
-
-                    <!-- Model 2: DenseNet3D -->
-                    <div class="model-info-card model-info-card-featured">
-                        <div class="model-header">
-                            <input type="checkbox" id="modelDenseNet" class="model-checkbox" checked>
-                            <i class="fas fa-network-wired"></i>
-                            <strong>DenseNet3D with Multi-Head Attention</strong>
-                            <span class="model-badge">BEST</span>
-                        </div>
-                        <div class="model-details">
-                            <div class="model-detail-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span><strong>Test Accuracy:</strong> 95.73% ⭐</span>
-                            </div>
-                            <div class="model-detail-item">
-                                <i class="fas fa-balance-scale"></i>
-                                <span><strong>F1 Score:</strong> 0.7775 ⭐</span>
-                            </div>
-                            <div class="model-detail-item">
-                                <i class="fas fa-bullseye"></i>
-                                <span><strong>Precision:</strong> 86.01% ⭐</span>
-                            </div>
-                            <div class="model-detail-item">
-                                <i class="fas fa-search"></i>
-                                <span><strong>Recall:</strong> 70.94%</span>
-                            </div>
-                            <div class="model-detail-item">
-                                <i class="fas fa-sliders-h"></i>
-                                <span><strong>Threshold:</strong> 32% (Same as ResNet)</span>
-                            </div>
-                            <div class="model-detail-item">
-                                <i class="fas fa-microchip"></i>
-                                <span><strong>Parameters:</strong> 672,770 (Compact!)</span>
-                            </div>
-                        </div>
-                        <p class="model-description">
-                            <strong>Highest accuracy model</strong> featuring dense connections for better gradient flow, 
-                            4-head self-attention for spatial modeling, and Focal Loss training for class balance. 
-                            Uses the <strong>same 32% threshold</strong> for consistent sensitivity across both models.
-                            <em>Best for: Reliable diagnosis with superior architecture.</em>
-                        </p>
-                    </div>
-
-                    <div class="model-selection-note">
-                        <i class="fas fa-info-circle"></i>
-                        <div>
-                            <strong>Dual-Model Analysis:</strong> Both models analyze your image with the same 32% threshold.
-                            <ul style="margin-top: 0.5rem; padding-left: 1.5rem; line-height: 1.8;">
-                                <li><strong>Both use 32% threshold:</strong> Consistent sensitivity for catching potential cases</li>
-                                <li><strong>DenseNet3D advantage:</strong> Superior architecture (95.73% accuracy vs 83.3%)</li>
-                                <li><strong>When both agree:</strong> High confidence in the result</li>
-                                <li><strong>When they disagree:</strong> Uncertain case - recommend medical review</li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
 
