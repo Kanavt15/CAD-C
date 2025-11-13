@@ -1,7 +1,6 @@
 """
 Lung Cancer Detection Web Application
-Flask backend using Improved 3D CNN with Residual + SE blocks
-High-performance model with 83% accuracy
+Multi-Model AI System with 3D CNN Architectures
 """
 
 import os
@@ -15,94 +14,137 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from scipy.ndimage import zoom
 
-# Import model architecture
+# Import model architectures
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), 'models_3d_cnn'))
 from model_architecture import ImprovedCNN3D_Nodule_Detector
+from efficientnet3d_b2_architecture import EfficientNet3D_B2
+from densenet3d_architecture import DenseNet3D_Attention
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Configuration
 UPLOAD_FOLDER = 'uploads'
-MODELS_DIR = 'models_3d_cnn'
-MODEL_PATH = os.path.join(MODELS_DIR, 'best_improved_3d_cnn_model.pth')
-MODEL_INFO_PATH = os.path.join(MODELS_DIR, 'model_info.json')
-
-# Model configuration
 PATCH_SIZE = 64
 HU_MIN = -1000
 HU_MAX = 400
-# Threshold optimized based on model's precision-recall balance
-# Model has 55% precision and 83% recall at default threshold
-# Lowering threshold increases sensitivity for cancer detection
-CANCER_THRESHOLD = 0.32  # 32% threshold - optimized for medical use (better to flag for review than miss)
+CANCER_THRESHOLD = 0.32
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Enable debug mode
 app.config['DEBUG'] = True
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-# Device configuration - Force CPU due to CUDA compatibility issues
+# Device configuration
 device = torch.device('cpu')
-print(f"Using device: {device} (CUDA disabled due to compatibility issues)")
+print(f"Using device: {device}")
 
-# Load model info
+# Model paths and info
+MODELS_CONFIG = {
+    'improved_3d_cnn': {
+        'path': 'models_3d_cnn/best_improved_3d_cnn_model.pth',
+        'info_path': 'models_3d_cnn/model_info.json',
+        'architecture': ImprovedCNN3D_Nodule_Detector,
+        'display_name': 'Improved 3D CNN (Residual + SE)'
+    },
+    'efficientnet3d_b2': {
+        'path': 'efficientnet3d_b2.pth',
+        'info_path': 'efficientnet_model_info.json',
+        'architecture': EfficientNet3D_B2,
+        'display_name': 'EfficientNet3D-B2'
+    },
+    'densenet3d_attention': {
+        'path': 'densenet3d_attention.pth',
+        'info_path': 'densenet_model_info.json',
+        'architecture': DenseNet3D_Attention,
+        'display_name': 'DenseNet3D + Attention'
+    }
+}
+
+# Store loaded models and info
+models = {}
 model_info = {}
-if os.path.exists(MODEL_INFO_PATH):
-    with open(MODEL_INFO_PATH, 'r') as f:
-        model_info = json.load(f)
-    print("Model Information:")
-    print(f"  Name: {model_info.get('model_name', 'Unknown')}")
-    print(f"  Test Accuracy: {model_info.get('test_accuracy', 0):.2f}%")
-    print(f"  Test F1 Score: {model_info.get('test_f1_score', 0):.4f}")
-    print(f"  Parameters: {model_info.get('parameters', 0):,}")
 
-# Load model
-model = None
+def load_model_info(info_path):
+    """Load model information from JSON"""
+    if os.path.exists(info_path):
+        with open(info_path, 'r') as f:
+            return json.load(f)
+    return {}
 
-def load_model():
-    """Load the improved 3D CNN model"""
-    global model
+def load_model(model_key):
+    """Load a specific model"""
+    config = MODELS_CONFIG[model_key]
     
     try:
-        if not os.path.exists(MODEL_PATH):
-            raise FileNotFoundError(f"Model file not found: {MODEL_PATH}")
+        if not os.path.exists(config['path']):
+            print(f"⚠ Model file not found: {config['path']}")
+            return None
         
-        print(f"Loading model from: {MODEL_PATH}")
+        print(f"\nLoading {config['display_name']}...")
         
         # Initialize model
-        model = ImprovedCNN3D_Nodule_Detector(in_channels=1, num_classes=2)
+        if model_key == 'improved_3d_cnn':
+            model = config['architecture'](in_channels=1, num_classes=2)
+        elif model_key == 'efficientnet3d_b2':
+            model = config['architecture'](in_channels=1, num_classes=2, 
+                                          width_mult=1.1, depth_mult=1.1, dropout_rate=0.3)
+        elif model_key == 'densenet3d_attention':
+            model = config['architecture'](in_channels=1, num_classes=2, 
+                                          growth_rate=16, num_layers=[4, 4, 4], 
+                                          num_heads=4, drop_path_rate=0.2)
         
         # Load checkpoint
-        checkpoint = torch.load(MODEL_PATH, map_location=device, weights_only=False)
+        checkpoint = torch.load(config['path'], map_location=device, weights_only=False)
         
-        # Handle checkpoint format
         if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
             model.load_state_dict(checkpoint['model_state_dict'])
-            print(f"  Loaded from epoch: {checkpoint.get('epoch', 'unknown')}")
-            print(f"  Validation accuracy: {checkpoint.get('val_acc', 0):.2f}%")
-            print(f"  Validation F1: {checkpoint.get('val_f1', 0):.4f}")
+            print(f"  ✓ Loaded from epoch: {checkpoint.get('epoch', 'unknown')}")
         else:
             model.load_state_dict(checkpoint)
         
         model.to(device)
         model.eval()
         
-        print("✓ Improved 3D CNN model loaded successfully")
-        print(f"  Total parameters: {sum(p.numel() for p in model.parameters()):,}")
+        # Load model info
+        info = load_model_info(config['info_path'])
+        model_info[model_key] = info
         
-        return True
+        # Extract accuracy and F1 - handle different JSON formats
+        if 'test_metrics' in info:
+            # DenseNet format
+            accuracy = info['test_metrics'].get('accuracy', 0) * 100
+            f1 = info['test_metrics'].get('f1', 0)
+        else:
+            # Standard format
+            accuracy = info.get('test_accuracy', 0)
+            f1 = info.get('test_f1_score', 0)
+        
+        print(f"  ✓ {config['display_name']} loaded successfully")
+        print(f"  Accuracy: {accuracy:.2f}%")
+        print(f"  F1 Score: {f1:.4f}")
+        
+        return model
         
     except Exception as e:
-        print(f"✗ Error loading model: {str(e)}")
+        print(f"  ✗ Error loading {config['display_name']}: {str(e)}")
         import traceback
         traceback.print_exc()
-        return False
+        return None
 
-# Load model on startup
-model_loaded = load_model()
+# Load all available models
+print("\n" + "="*60)
+print("LOADING AI MODELS")
+print("="*60)
+
+for model_key in MODELS_CONFIG.keys():
+    model = load_model(model_key)
+    if model is not None:
+        models[model_key] = model
+
+print(f"\n✓ Loaded {len(models)}/{len(MODELS_CONFIG)} models successfully")
+print("="*60 + "\n")
 
 def normalize_hu(image):
     """Normalize CT Hounsfield Units to [0, 1] range"""
@@ -161,38 +203,31 @@ def preprocess_image_3d(image_file):
     except Exception as e:
         raise Exception(f"Error preprocessing image: {str(e)}")
 
-def predict_3d_cnn(img_tensor, threshold=CANCER_THRESHOLD):
-    """
-    Make prediction with the 3D CNN model
-    
-    Args:
-        img_tensor: Input 3D image tensor (1, 1, D, H, W)
-        threshold: Probability threshold for cancerous classification
-    """
+def predict_with_model(model_key, img_tensor, threshold=CANCER_THRESHOLD):
+    """Make prediction with a specific model"""
     try:
-        print(f"Input tensor shape: {img_tensor.shape}")
-        print(f"Threshold: {threshold * 100}%")
+        model = models.get(model_key)
+        if model is None:
+            return {
+                'model': MODELS_CONFIG[model_key]['display_name'],
+                'error': 'Model not loaded'
+            }
         
         with torch.no_grad():
             img_tensor = img_tensor.to(device)
             outputs = model(img_tensor)
             probabilities = torch.softmax(outputs, dim=1)
             
-            # Get probabilities
             non_cancerous_prob = probabilities[0][0].item()
             cancerous_prob = probabilities[0][1].item()
             
-            # Multi-level classification with uncertainty zone
-            # 0-25%: Non-Cancerous (confident)
-            # 25-32%: Suspicious/Uncertain (possible cancer - needs further review)
-            # 32%+: Cancerous (high probability)
-            
+            # Classification logic
             if cancerous_prob >= threshold:
                 predicted_class = 1
                 prediction_label = 'Cancerous'
                 confidence = cancerous_prob * 100
             elif cancerous_prob >= 0.25:
-                predicted_class = 2  # Suspicious/uncertain
+                predicted_class = 2
                 prediction_label = 'Suspicious - Possible Cancer (Needs Review)'
                 confidence = cancerous_prob * 100
             else:
@@ -200,8 +235,11 @@ def predict_3d_cnn(img_tensor, threshold=CANCER_THRESHOLD):
                 prediction_label = 'Non-Cancerous'
                 confidence = non_cancerous_prob * 100
             
+            info = model_info.get(model_key, {})
+            
             result = {
-                'model': 'Improved 3D CNN (Residual + SE)',
+                'model': model_key,
+                'model_name': MODELS_CONFIG[model_key]['display_name'],
                 'prediction': prediction_label,
                 'confidence': float(confidence),
                 'probabilities': {
@@ -211,28 +249,18 @@ def predict_3d_cnn(img_tensor, threshold=CANCER_THRESHOLD):
                 'threshold': float(threshold * 100),
                 'warning': 'Further medical review recommended' if predicted_class == 2 else None,
                 'model_info': {
-                    'accuracy': model_info.get('test_accuracy', 0),
-                    'f1_score': model_info.get('test_f1_score', 0),
-                    'precision': model_info.get('test_precision', 0),
-                    'recall': model_info.get('test_recall', 0)
+                    'accuracy': info.get('test_accuracy', 0),
+                    'f1_score': info.get('test_f1_score', 0),
+                    'precision': info.get('test_precision', 0),
+                    'recall': info.get('test_recall', 0)
                 }
             }
-            
-            print(f"Prediction: {result['prediction']}")
-            print(f"Confidence: {result['confidence']:.2f}%")
-            print(f"Cancerous probability: {cancerous_prob * 100:.2f}%")
-            print(f"Non-Cancerous probability: {non_cancerous_prob * 100:.2f}%")
-            print(f"Threshold used: {threshold * 100:.1f}%")
-            print(f"Raw logits: {outputs[0].tolist()}")
             
             return result
             
     except Exception as e:
-        print(f"Error in prediction: {str(e)}")
-        import traceback
-        traceback.print_exc()
         return {
-            'model': 'Improved 3D CNN (Residual + SE)',
+            'model': MODELS_CONFIG[model_key]['display_name'],
             'error': str(e)
         }
 
@@ -253,16 +281,36 @@ def about():
 
 @app.route('/api/models', methods=['GET'])
 def get_available_models():
-    """Return model information"""
+    """Return information about available models"""
+    available_models = []
+    
+    for model_key, model in models.items():
+        info = model_info.get(model_key, {})
+        
+        # Handle different JSON formats
+        if 'test_metrics' in info:
+            # DenseNet format
+            accuracy = info['test_metrics'].get('accuracy', 0) * 100
+            f1_score = info['test_metrics'].get('f1', 0)
+            parameters = info.get('total_params', 0)
+        else:
+            # Standard format
+            accuracy = info.get('test_accuracy', 0)
+            f1_score = info.get('test_f1_score', 0)
+            parameters = info.get('parameters', 0)
+        
+        available_models.append({
+            'id': model_key,
+            'name': MODELS_CONFIG[model_key]['display_name'],
+            'accuracy': accuracy,
+            'f1_score': f1_score,
+            'parameters': parameters,
+            'description': info.get('description', '')
+        })
+    
     return jsonify({
-        'models': ['improved_3d_cnn'],
-        'count': 1,
-        'active_model': {
-            'name': 'Improved 3D CNN (Residual + SE)',
-            'accuracy': model_info.get('test_accuracy', 0),
-            'f1_score': model_info.get('test_f1_score', 0),
-            'parameters': model_info.get('parameters', 0)
-        }
+        'models': available_models,
+        'count': len(available_models)
     })
 
 @app.route('/api/predict', methods=['POST'])
@@ -272,11 +320,11 @@ def predict():
     print("Received prediction request")
     
     try:
-        # Check if model is loaded
-        if model is None or not model_loaded:
+        # Check if models are loaded
+        if len(models) == 0:
             return jsonify({
                 'success': False,
-                'error': 'Model not loaded. Please restart the server.'
+                'error': 'No models loaded. Please restart the server.'
             }), 500
         
         # Check if image was uploaded
@@ -295,22 +343,24 @@ def predict():
         print("Preprocessing image...")
         img_tensor = preprocess_image_3d(image_file)
         
-        # Make prediction
-        print("Making prediction...")
-        result = predict_3d_cnn(img_tensor, threshold=CANCER_THRESHOLD)
+        # Make predictions with all models
+        print("Making predictions with all models...")
+        results = []
         
-        if 'error' in result:
-            print(f"Error in prediction: {result['error']}")
-            return jsonify({
-                'success': False,
-                'error': result['error']
-            }), 500
+        for model_key in models.keys():
+            result = predict_with_model(model_key, img_tensor, threshold=CANCER_THRESHOLD)
+            results.append(result)
+            
+            if 'error' not in result:
+                print(f"✓ {result['model_name']}: {result['prediction']} ({result['confidence']:.2f}%)")
+            else:
+                print(f"✗ {result['model_name']}: {result['error']}")
         
-        print(f"Prediction successful: {result['prediction']}")
+        print(f"Predictions completed successfully")
         
         return jsonify({
             'success': True,
-            'results': [result]  # Keep as list for compatibility with frontend
+            'results': results
         })
     
     except Exception as e:
@@ -327,21 +377,19 @@ def health_check():
     """Health check endpoint"""
     return jsonify({
         'status': 'healthy',
-        'model_loaded': model_loaded,
+        'models_loaded': len(models),
+        'total_models': len(MODELS_CONFIG),
         'device': str(device),
-        'model_accuracy': model_info.get('test_accuracy', 0)
+        'models': [MODELS_CONFIG[k]['display_name'] for k in models.keys()]
     })
 
 if __name__ == '__main__':
     print("\n" + "="*60)
     print("Lung Cancer Detection System")
-    print("Improved 3D CNN with Residual + SE Blocks")
+    print("Multi-Model AI Platform")
     print("="*60)
-    print(f"Model loaded: {model_loaded}")
+    print(f"Models loaded: {len(models)}/{len(MODELS_CONFIG)}")
     print(f"Device: {device}")
-    if model_info:
-        print(f"Test Accuracy: {model_info.get('test_accuracy', 0):.2f}%")
-        print(f"Test F1 Score: {model_info.get('test_f1_score', 0):.4f}")
     print("="*60 + "\n")
     
     app.run(debug=True, host='0.0.0.0', port=5000)

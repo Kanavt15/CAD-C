@@ -69,7 +69,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>The <span class="gradient-text">Technology</span> Behind LungAI</h2>
-                <p>Advanced deep learning architecture powering our detection system</p>
+                <p>Three advanced AI models working together for comprehensive lung cancer detection</p>
             </div>
 
             <div class="tech-grid">
@@ -78,36 +78,58 @@
                         <div class="tech-icon">
                             <i class="fas fa-cube"></i>
                         </div>
-                        <h3>3D CNN Architecture</h3>
+                        <h3>Improved 3D CNN (Residual + SE)</h3>
+                        <span class="model-badge" style="background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);">Model 1</span>
                     </div>
                     <p>
-                        Our Improved 3D Convolutional Neural Network analyzes entire volumetric data, 
-                        not just 2D slices. This provides comprehensive spatial understanding of lung 
-                        structures and potential nodules.
+                        Our foundational 3D Convolutional Neural Network with Residual connections and 
+                        Squeeze-Excitation blocks. Analyzes entire volumetric data for comprehensive 
+                        spatial understanding of lung structures.
                     </p>
                     <ul class="tech-features">
-                        <li><i class="fas fa-check"></i> Volumetric analysis (64×64×64 patches)</li>
-                        <li><i class="fas fa-check"></i> Multi-scale feature extraction</li>
-                        <li><i class="fas fa-check"></i> Hierarchical learning</li>
+                        <li><i class="fas fa-check"></i> Accuracy: 83.3% | F1: 0.67</li>
+                        <li><i class="fas fa-check"></i> Residual connections + SE attention</li>
+                        <li><i class="fas fa-check"></i> Reliable baseline performance</li>
                     </ul>
                 </div>
 
                 <div class="tech-card">
                     <div class="tech-header">
                         <div class="tech-icon">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-bolt"></i>
                         </div>
-                        <h3>Residual Connections</h3>
+                        <h3>EfficientNet3D-B2</h3>
+                        <span class="model-badge" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);">Model 2</span>
                     </div>
                     <p>
-                        Inspired by ResNet architecture, our model uses skip connections to enable 
-                        training of very deep networks. This prevents vanishing gradients and allows 
+                        State-of-the-art EfficientNet-B2 adapted for 3D medical imaging with compound 
+                        scaling. Features MBConv blocks with Squeeze-Excitation and optimized depth/width 
                         for superior feature learning.
                     </p>
                     <ul class="tech-features">
-                        <li><i class="fas fa-check"></i> Deep network training (100+ layers)</li>
-                        <li><i class="fas fa-check"></i> Gradient flow optimization</li>
-                        <li><i class="fas fa-check"></i> Identity mapping shortcuts</li>
+                        <li><i class="fas fa-check"></i> Accuracy: 93.1% | F1: 0.73</li>
+                        <li><i class="fas fa-check"></i> MBConv + Compound Scaling</li>
+                        <li><i class="fas fa-check"></i> 9.2M parameters for complex patterns</li>
+                    </ul>
+                </div>
+
+                <div class="tech-card">
+                    <div class="tech-header">
+                        <div class="tech-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3>DenseNet3D + Attention</h3>
+                        <span class="model-badge" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">Best Model</span>
+                    </div>
+                    <p>
+                        Our most accurate model combining DenseNet's feature reuse with multi-head 
+                        spatial attention. Dense blocks with 4-head attention mechanism capture 
+                        intricate patterns with exceptional efficiency.
+                    </p>
+                    <ul class="tech-features">
+                        <li><i class="fas fa-check"></i> Accuracy: 95.7% | F1: 0.78</li>
+                        <li><i class="fas fa-check"></i> Dense Blocks + 4-Head Attention</li>
+                        <li><i class="fas fa-check"></i> Only 673K params (most efficient)</li>
                     </ul>
                 </div>
 
@@ -116,36 +138,18 @@
                         <div class="tech-icon">
                             <i class="fas fa-brain"></i>
                         </div>
-                        <h3>Squeeze-Excitation Blocks</h3>
+                        <h3>Ensemble Intelligence</h3>
+                        <span class="model-badge" style="background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);">System</span>
                     </div>
                     <p>
-                        SE blocks add channel-wise attention mechanisms, allowing the network to 
-                        dynamically recalibrate channel-wise feature responses. This enhances the 
-                        model's representational power.
+                        All three models analyze each image simultaneously, providing multiple expert 
+                        opinions. This multi-model approach increases reliability and provides 
+                        comprehensive diagnostic insights.
                     </p>
                     <ul class="tech-features">
-                        <li><i class="fas fa-check"></i> Adaptive feature recalibration</li>
-                        <li><i class="fas fa-check"></i> Channel interdependencies</li>
-                        <li><i class="fas fa-check"></i> Enhanced discrimination</li>
-                    </ul>
-                </div>
-
-                <div class="tech-card">
-                    <div class="tech-header">
-                        <div class="tech-icon">
-                            <i class="fas fa-crosshairs"></i>
-                        </div>
-                        <h3>Optimized Thresholding</h3>
-                    </div>
-                    <p>
-                        Our three-tier classification system uses carefully optimized thresholds 
-                        (32% for cancer, 25-32% for suspicious) to maximize sensitivity while 
-                        maintaining diagnostic utility.
-                    </p>
-                    <ul class="tech-features">
-                        <li><i class="fas fa-check"></i> 83% recall rate</li>
-                        <li><i class="fas fa-check"></i> Three-tier classification</li>
-                        <li><i class="fas fa-check"></i> Medical screening optimized</li>
+                        <li><i class="fas fa-check"></i> 3 independent AI assessments</li>
+                        <li><i class="fas fa-check"></i> Cross-validation of predictions</li>
+                        <li><i class="fas fa-check"></i> Enhanced diagnostic confidence</li>
                     </ul>
                 </div>
             </div>
@@ -157,11 +161,15 @@
         <div class="container">
             <div class="section-header">
                 <h2>Model <span class="gradient-text">Performance</span></h2>
-                <p>Validated metrics from extensive testing</p>
+                <p>Validated metrics from extensive testing on LUNA16 dataset</p>
             </div>
 
             <div class="performance-grid">
+                <!-- Model 1: Improved 3D CNN -->
                 <div class="performance-card">
+                    <h4 style="margin-bottom: 1rem; color: var(--accent-blue); font-weight: 600;">
+                        <i class="fas fa-cube"></i> Improved 3D CNN
+                    </h4>
                     <div class="performance-visual">
                         <div class="circular-progress" data-value="83">
                             <svg viewBox="0 0 200 200">
@@ -172,58 +180,72 @@
                         </div>
                     </div>
                     <h3>Accuracy</h3>
-                    <p>Overall classification accuracy on test dataset</p>
+                    <p>F1: 0.67 | Precision: 55% | Recall: 83%</p>
                 </div>
 
+                <!-- Model 2: EfficientNet3D-B2 -->
                 <div class="performance-card">
+                    <h4 style="margin-bottom: 1rem; color: var(--accent-purple); font-weight: 600;">
+                        <i class="fas fa-bolt"></i> EfficientNet3D-B2
+                    </h4>
                     <div class="performance-visual">
-                        <div class="circular-progress" data-value="67">
+                        <div class="circular-progress" data-value="93">
                             <svg viewBox="0 0 200 200">
                                 <circle cx="100" cy="100" r="90" />
                                 <circle cx="100" cy="100" r="90" class="progress" />
                             </svg>
-                            <div class="percentage">0.67</div>
+                            <div class="percentage">93%</div>
                         </div>
                     </div>
-                    <h3>F1 Score</h3>
-                    <p>Balanced precision-recall harmonic mean</p>
+                    <h3>Accuracy</h3>
+                    <p>F1: 0.73 | Precision: 73% | Recall: 74%</p>
                 </div>
 
-                <div class="performance-card">
+                <!-- Model 3: DenseNet3D + Attention -->
+                <div class="performance-card" style="border: 2px solid var(--accent-cyan);">
+                    <h4 style="margin-bottom: 1rem; color: #10b981; font-weight: 600;">
+                        <i class="fas fa-network-wired"></i> DenseNet3D + Attention
+                        <span style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.7rem; margin-left: 0.5rem;">BEST</span>
+                    </h4>
                     <div class="performance-visual">
-                        <div class="circular-progress" data-value="83">
+                        <div class="circular-progress" data-value="96">
+                            <svg viewBox="0 0 200 200">
+                                <circle cx="100" cy="100" r="90" />
+                                <circle cx="100" cy="100" r="90" class="progress" style="stroke: #10b981;" />
+                            </svg>
+                            <div class="percentage" style="color: #10b981;">96%</div>
+                        </div>
+                    </div>
+                    <h3>Accuracy</h3>
+                    <p>F1: 0.78 | Precision: 86% | Recall: 71%</p>
+                </div>
+
+                <!-- Ensemble System -->
+                <div class="performance-card">
+                    <h4 style="margin-bottom: 1rem; color: var(--accent-pink); font-weight: 600;">
+                        <i class="fas fa-brain"></i> Multi-Model System
+                    </h4>
+                    <div class="performance-visual">
+                        <div class="circular-progress" data-value="100">
                             <svg viewBox="0 0 200 200">
                                 <circle cx="100" cy="100" r="90" />
                                 <circle cx="100" cy="100" r="90" class="progress" />
                             </svg>
-                            <div class="percentage">83%</div>
+                            <div class="percentage">3×</div>
                         </div>
                     </div>
-                    <h3>Recall</h3>
-                    <p>Sensitivity for detecting cancer cases</p>
-                </div>
-
-                <div class="performance-card">
-                    <div class="performance-visual">
-                        <div class="circular-progress" data-value="55">
-                            <svg viewBox="0 0 200 200">
-                                <circle cx="100" cy="100" r="90" />
-                                <circle cx="100" cy="100" r="90" class="progress" />
-                            </svg>
-                            <div class="percentage">55%</div>
-                        </div>
-                    </div>
-                    <h3>Precision</h3>
-                    <p>Positive predictive value</p>
+                    <h3>Ensemble Power</h3>
+                    <p>Combined intelligence from 3 specialized models</p>
                 </div>
             </div>
 
             <div class="performance-note">
                 <i class="fas fa-info-circle"></i>
                 <p>
-                    <strong>Note:</strong> The model is optimized for high recall (sensitivity) to minimize 
-                    false negatives in medical screening scenarios. The three-tier classification system 
-                    (Cancerous ≥32%, Suspicious 25-32%, Non-Cancerous <25%) provides additional safety margins.
+                    <strong>Multi-Model Advantage:</strong> Each model brings unique strengths - the Improved 3D CNN 
+                    provides solid baseline detection, EfficientNet3D-B2 offers advanced pattern recognition with 
+                    compound scaling, and DenseNet3D+Attention achieves the highest accuracy with exceptional efficiency. 
+                    Together, they provide comprehensive analysis and cross-validation for reliable diagnosis.
                 </p>
             </div>
         </div>

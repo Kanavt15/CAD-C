@@ -64,11 +64,13 @@
 
                 <!-- Model Information -->
                 <div id="models" class="model-selection">
-                    <h3><i class="fas fa-robot"></i> AI Model Information</h3>
+                    <h3><i class="fas fa-robot"></i> AI Models</h3>
+                    
+                    <!-- Model 1: Improved 3D CNN -->
                     <div class="model-info-card">
                         <div class="model-header">
                             <i class="fas fa-cube"></i>
-                            <strong>Improved 3D CNN with Residual + SE Blocks</strong>
+                            <strong>Improved 3D CNN (Residual + SE)</strong>
                         </div>
                         <div class="model-details">
                             <div class="model-detail-item">
@@ -81,19 +83,60 @@
                             </div>
                             <div class="model-detail-item">
                                 <i class="fas fa-layer-group"></i>
-                                <span><strong>Architecture:</strong> Residual Blocks with SE Attention</span>
-                            </div>
-                            <div class="model-detail-item">
-                                <i class="fas fa-cube"></i>
-                                <span><strong>Input:</strong> 64×64×64 3D Patches</span>
+                                <span><strong>Architecture:</strong> Residual + SE Blocks</span>
                             </div>
                         </div>
-                        <p class="model-description">
-                            This advanced model uses residual connections for deeper learning and 
-                            Squeeze-and-Excitation blocks for channel-wise attention, achieving 
-                            superior performance in lung nodule detection.
-                        </p>
                     </div>
+
+                    <!-- Model 2: EfficientNet3D-B2 -->
+                    <div class="model-info-card" style="margin-top: 1.5rem;">
+                        <div class="model-header">
+                            <i class="fas fa-bolt"></i>
+                            <strong>EfficientNet3D-B2</strong>
+                        </div>
+                        <div class="model-details">
+                            <div class="model-detail-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span><strong>Accuracy:</strong> 93.1%</span>
+                            </div>
+                            <div class="model-detail-item">
+                                <i class="fas fa-balance-scale"></i>
+                                <span><strong>F1 Score:</strong> 0.73</span>
+                            </div>
+                            <div class="model-detail-item">
+                                <i class="fas fa-layer-group"></i>
+                                <span><strong>Architecture:</strong> MBConv + Compound Scaling</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model 3: DenseNet3D + Attention -->
+                    <div class="model-info-card" style="margin-top: 1.5rem;">
+                        <div class="model-header">
+                            <i class="fas fa-network-wired"></i>
+                            <strong>DenseNet3D + Attention</strong>
+                            <span class="badge badge-success" style="margin-left: auto; font-size: 0.7rem;">BEST</span>
+                        </div>
+                        <div class="model-details">
+                            <div class="model-detail-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span><strong>Accuracy:</strong> 95.7%</span>
+                            </div>
+                            <div class="model-detail-item">
+                                <i class="fas fa-balance-scale"></i>
+                                <span><strong>F1 Score:</strong> 0.78</span>
+                            </div>
+                            <div class="model-detail-item">
+                                <i class="fas fa-layer-group"></i>
+                                <span><strong>Architecture:</strong> Dense Blocks + Multi-Head Attention</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="model-description" style="margin-top: 2rem; padding: 1.5rem; background: rgba(59, 130, 246, 0.05); border-left: 4px solid var(--accent-blue); border-radius: 12px;">
+                        <i class="fas fa-info-circle" style="color: var(--accent-blue); margin-right: 0.5rem;"></i>
+                        All three models will analyze your image simultaneously, providing multiple expert opinions for comprehensive lung cancer detection.
+                    </p>
                 </div>
 
                 <!-- Analyze Button -->
