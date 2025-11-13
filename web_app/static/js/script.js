@@ -218,7 +218,6 @@ function createResultCard(result) {
     const isCancerous = result.prediction === 'Cancerous';
     const isSuspicious = result.prediction && result.prediction.includes('Suspicious');
     const isNonCancerous = !isCancerous && !isSuspicious;
-    const isEnsemble = result.model === 'ensemble';
     const confidence = result.confidence;
     
     // Determine prediction class for styling
@@ -236,28 +235,30 @@ function createResultCard(result) {
     if (confidence < 70) confidenceLevel = 'medium';
     if (confidence < 50) confidenceLevel = 'low';
     
-    const modelNames = {
-        'densenet': 'DenseNet169',
-        'efficientnet': 'EfficientNet-B0',
-        'resnet101': 'ResNet101',
-        'ensemble': 'Ensemble Prediction'
+    // Model display names and icons
+    const modelDisplayNames = {
+        'improved_3d_cnn': 'Improved 3D CNN (Residual + SE)',
+        'efficientnet3d_b2': 'EfficientNet3D-B2',
+        'densenet3d_attention': 'DenseNet3D + Attention'
     };
     
     const modelIcons = {
-        'densenet': 'fa-network-wired',
-        'efficientnet': 'fa-bolt',
-        'resnet101': 'fa-layer-group',
-        'ensemble': 'fa-brain'
+        'improved_3d_cnn': 'fa-cube',
+        'efficientnet3d_b2': 'fa-bolt',
+        'densenet3d_attention': 'fa-network-wired'
     };
     
+    const displayName = modelDisplayNames[result.model] || result.model_name || result.model;
+    const icon = modelIcons[result.model] || 'fa-robot';
+    
     return `
-        <div class="result-item ${isEnsemble ? 'ensemble' : ''}">
+        <div class="result-item">
             <div class="result-header">
                 <h3>
-                    <i class="fas ${modelIcons[result.model] || 'fa-robot'}"></i>
-                    ${modelNames[result.model] || result.model}
+                    <i class="fas ${icon}"></i>
+                    ${displayName}
                 </h3>
-                ${isEnsemble ? '<span class="badge badge-primary">Ensemble</span>' : ''}
+                ${result.model === 'densenet3d_attention' ? '<span class="badge badge-success">BEST</span>' : ''}
                 ${isSuspicious ? '<span class="badge badge-suspicious">Needs Review</span>' : ''}
             </div>
             
@@ -281,11 +282,11 @@ function createResultCard(result) {
             </div>
             
             ${result.threshold ? `
-            <div class="threshold-info" style="font-size: 0.85em; color: var(--text-light); margin: 8px 0; padding: 8px 14px; background: rgba(255,255,255,0.05); border-radius: 8px; border-left: 3px solid var(--primary-color);">
+            <div class="threshold-info">
                 <i class="fas fa-chart-line"></i> <strong>Classification System:</strong>
                 <br><span style="font-size: 0.9em; margin-top: 4px; display: block;">
-                    • ≥${result.threshold}%: <span style="color: #dc2626;">Cancerous</span><br>
-                    • 25-${result.threshold}%: <span style="color: #ea580c;">Suspicious (Possible Cancer)</span><br>
+                    • ≥${result.threshold.toFixed(0)}%: <span style="color: #dc2626;">Cancerous</span><br>
+                    • 25-${result.threshold.toFixed(0)}%: <span style="color: #ea580c;">Suspicious</span><br>
                     • <25%: <span style="color: #059669;">Non-Cancerous</span>
                 </span>
             </div>
@@ -298,23 +299,33 @@ function createResultCard(result) {
             <div class="probabilities">
                 <div class="probability-item">
                     <div class="probability-label">
-                        <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+                        <i class="fas fa-check-circle" style="color: var(--status-healthy);"></i>
                         Non-Cancerous
                     </div>
-                    <div class="probability-value" style="color: var(--success-color);">
+                    <div class="probability-value" style="color: var(--status-healthy);">
                         ${result.probabilities.non_cancerous.toFixed(2)}%
                     </div>
                 </div>
                 <div class="probability-item">
                     <div class="probability-label">
-                        <i class="fas fa-exclamation-circle" style="color: var(--danger-color);"></i>
+                        <i class="fas fa-exclamation-circle" style="color: var(--status-critical);"></i>
                         Cancerous
                     </div>
-                    <div class="probability-value" style="color: var(--danger-color);">
+                    <div class="probability-value" style="color: var(--status-critical);">
                         ${result.probabilities.cancerous.toFixed(2)}%
                     </div>
                 </div>
             </div>
+            
+            ${result.model_info ? `
+            <div class="model-metrics" style="margin-top: 1.5rem; padding: 1rem; background: rgba(59, 130, 246, 0.05); border-radius: 8px; font-size: 0.85rem;">
+                <strong style="color: var(--accent-blue);">Model Performance:</strong>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem;">
+                    <span>Accuracy: ${result.model_info.accuracy?.toFixed(1)}%</span>
+                    <span>F1: ${result.model_info.f1_score?.toFixed(3)}</span>
+                </div>
+            </div>
+            ` : ''}
         </div>
     `;
 }

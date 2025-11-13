@@ -1,0 +1,19 @@
+{
+    "model_name": "EfficientNet3D-B2",
+    "architecture": "EfficientNet-B2 with Compound Scaling (3D Adaptation)",
+    "test_accuracy": 93.08,
+    "test_f1_score": 0.7326,
+    "test_precision": 0.6170,
+    "test_recall": 0.9017,
+    "val_accuracy": 93.58,
+    "val_f1_score": 0.7504,
+    "parameters": 9215554,
+    "description": "EfficientNet-B2 adapted for 3D medical imaging with compound scaling (width=1.1x, depth=1.1x). Uses MBConv blocks with Squeeze-Excitation attention and Swish activation.",
+    "features": [
+        "Compound Scaling (φ=1)",
+        "MBConv Blocks with SE",
+        "Stochastic Depth",
+        "Swish Activation",
+        "~9.2M Parameters"
+    ]
+}
