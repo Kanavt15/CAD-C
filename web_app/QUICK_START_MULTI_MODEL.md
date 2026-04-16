@@ -3,8 +3,8 @@
 ## Start the Application
 
 ```powershell
-cd E:\Kanav\Projects\CAD_C\web_app
-python app.py
+cd E:\Kanav\Projects\CAD-C\CAD-C\web_app
+.\start_multi_model.ps1
 ```
 
 ## Access the Web App

@@ -42,7 +42,7 @@
 
 ### Step 1: Navigate to Directory
 ```powershell
-cd e:\Kanav\Projects\CAD_C\web_app
+cd E:\Kanav\Projects\CAD-C\CAD-C\web_app
 ```
 
 ### Step 2: Verify Files (Optional)
@@ -61,7 +61,7 @@ Test-Path models_3d_cnn\best_improved_3d_cnn_model.pth
 ```
 **OR**
 ```powershell
-python app.py
+.\.venv\Scripts\python.exe app.py
 ```
 
 ### Step 4: Access Web Interface

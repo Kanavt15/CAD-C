@@ -5,6 +5,36 @@ Write-Host "  Lung Cancer Detection System - Multi-Model Ensemble" -ForegroundCo
 Write-Host "=" -ForegroundColor Cyan -NoNewline; Write-Host ("=" * 79) -ForegroundColor Cyan
 Write-Host ""
 
+# Ensure we run from an isolated environment and dependencies are installed
+$venvPath = ".\.venv\Scripts\python.exe"
+if (-not (Test-Path $venvPath)) {
+    Write-Host "Creating virtual environment (.venv)..." -ForegroundColor Yellow
+    python -m venv .venv
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "ERROR: Failed to create virtual environment." -ForegroundColor Red
+        exit 1
+    }
+}
+
+Write-Host "Installing/updating web app dependencies..." -ForegroundColor Cyan
+& $venvPath -m pip install --upgrade pip
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERROR: Failed to upgrade pip in .venv." -ForegroundColor Red
+    exit 1
+}
+
+& $venvPath -m pip install --no-cache-dir --only-binary=:all: -r requirements_frontend.txt
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERROR: Dependency installation failed. Fix the pip errors above and retry." -ForegroundColor Red
+    exit 1
+}
+
+& $venvPath -c "import flask, numpy, torch, scipy" | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERROR: Python dependencies are incomplete in .venv." -ForegroundColor Red
+    exit 1
+}
+
 # Check if we're in the right directory
 if (-not (Test-Path "app.py")) {
     Write-Host "ERROR: Please run this script from the web_app directory!" -ForegroundColor Red
@@ -71,4 +101,4 @@ Write-Host "=" -ForegroundColor Cyan -NoNewline; Write-Host ("=" * 79) -Foregrou
 Write-Host ""
 
 # Start the app
-python app.py
+& $venvPath app.py
