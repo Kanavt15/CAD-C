@@ -1,5 +1,6 @@
 // API Configuration
-const API_URL = 'http://localhost:5000';
+// Use same-origin API base so this works in local Flask and deployed Spaces.
+const API_URL = window.location.origin;
 
 // DOM Elements - with null checks
 const imageInput = document.getElementById('imageInput');
