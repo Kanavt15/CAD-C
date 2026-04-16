@@ -21,11 +21,13 @@ from model_architecture import ImprovedCNN3D_Nodule_Detector
 from efficientnet3d_b2_architecture import EfficientNet3D_B2
 from densenet3d_architecture import DenseNet3D_Attention
 
-app = Flask(__name__, static_folder='static', static_url_path='')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+app = Flask(__name__, static_folder=os.path.join(BASE_DIR, 'static'), static_url_path='')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Configuration
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
 PATCH_SIZE = 64
 HU_MIN = -1000
 HU_MAX = 400
@@ -33,7 +35,7 @@ CANCER_THRESHOLD = 0.32
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-app.config['DEBUG'] = True
+app.config['DEBUG'] = os.getenv('FLASK_DEBUG', '0') == '1'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 # Device configuration
@@ -43,20 +45,20 @@ print(f"Using device: {device}")
 # Model paths and info
 MODELS_CONFIG = {
     'improved_3d_cnn': {
-        'path': 'models_3d_cnn/best_improved_3d_cnn_model.pth',
-        'info_path': 'models_3d_cnn/model_info.json',
+        'path': os.path.join(BASE_DIR, 'models_3d_cnn', 'best_improved_3d_cnn_model.pth'),
+        'info_path': os.path.join(BASE_DIR, 'models_3d_cnn', 'model_info.json'),
         'architecture': ImprovedCNN3D_Nodule_Detector,
         'display_name': 'Improved 3D CNN (Residual + SE)'
     },
     'efficientnet3d_b2': {
-        'path': 'efficientnet3d_b2.pth',
-        'info_path': 'efficientnet_model_info.json',
+        'path': os.path.join(BASE_DIR, 'efficientnet3d_b2.pth'),
+        'info_path': os.path.join(BASE_DIR, 'efficientnet_model_info.json'),
         'architecture': EfficientNet3D_B2,
         'display_name': 'EfficientNet3D-B2'
     },
     'densenet3d_attention': {
-        'path': 'densenet3d_attention.pth',
-        'info_path': 'densenet_model_info.json',
+        'path': os.path.join(BASE_DIR, 'densenet3d_attention.pth'),
+        'info_path': os.path.join(BASE_DIR, 'densenet_model_info.json'),
         'architecture': DenseNet3D_Attention,
         'display_name': 'DenseNet3D + Attention'
     }
@@ -65,6 +67,7 @@ MODELS_CONFIG = {
 # Store loaded models and info
 models = {}
 model_info = {}
+models_loaded_once = False
 
 def load_model_info(info_path):
     """Load model information from JSON"""
@@ -133,18 +136,24 @@ def load_model(model_key):
         traceback.print_exc()
         return None
 
-# Load all available models
-print("\n" + "="*60)
-print("LOADING AI MODELS")
-print("="*60)
+def ensure_models_loaded():
+    """Lazy-load models so the web server can start quickly on managed platforms."""
+    global models_loaded_once
+    if models_loaded_once:
+        return
 
-for model_key in MODELS_CONFIG.keys():
-    model = load_model(model_key)
-    if model is not None:
-        models[model_key] = model
+    print("\n" + "="*60)
+    print("LOADING AI MODELS")
+    print("="*60)
 
-print(f"\n✓ Loaded {len(models)}/{len(MODELS_CONFIG)} models successfully")
-print("="*60 + "\n")
+    for model_key in MODELS_CONFIG.keys():
+        model = load_model(model_key)
+        if model is not None:
+            models[model_key] = model
+
+    models_loaded_once = True
+    print(f"\n✓ Loaded {len(models)}/{len(MODELS_CONFIG)} models successfully")
+    print("="*60 + "\n")
 
 def normalize_hu(image):
     """Normalize CT Hounsfield Units to [0, 1] range"""
@@ -282,6 +291,7 @@ def about():
 @app.route('/api/models', methods=['GET'])
 def get_available_models():
     """Return information about available models"""
+    ensure_models_loaded()
     available_models = []
     
     for model_key, model in models.items():
@@ -320,6 +330,8 @@ def predict():
     print("Received prediction request")
     
     try:
+        ensure_models_loaded()
+
         # Check if models are loaded
         if len(models) == 0:
             return jsonify({
@@ -377,6 +389,7 @@ def health_check():
     """Health check endpoint"""
     return jsonify({
         'status': 'healthy',
+        'models_initialized': models_loaded_once,
         'models_loaded': len(models),
         'total_models': len(MODELS_CONFIG),
         'device': str(device),
@@ -392,4 +405,5 @@ if __name__ == '__main__':
     print(f"Device: {device}")
     print("="*60 + "\n")
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.getenv('PORT', '5000'))
+    app.run(debug=app.config['DEBUG'], host='0.0.0.0', port=port)
