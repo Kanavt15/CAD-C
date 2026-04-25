@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lung Cancer Detection - Advanced AI Medical Imaging</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫁</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-lungs"></i>
+                    <span>LungAI</span>
+                </div>
+                <div class="nav-links">
+                    <a href="landing.html" class="nav-link active">Home</a>
+                    <a href="analyze.html" class="nav-link">Analyze</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="analyze.html" class="btn btn-primary">
+                        <i class="fas fa-microscope"></i> Start Detection
+                    </a>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with 3D Model -->
+    <section class="hero-3d">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content-grid">
+                <!-- Left: Text Content -->
+                <div class="hero-text">
+                    <div class="hero-badge">
+                        <i class="fas fa-star"></i>
+                        <span>Next-Gen Medical AI</span>
+                    </div>
+                    <h1 class="hero-title">
+                        Revolutionizing <span class="gradient-text">Lung Cancer</span><br>Detection with AI
+                    </h1>
+                    <p class="hero-description">
+                        Experience the future of medical imaging with our triple-model AI system. 
+                        Achieve up to 95.7% accuracy in lung nodule detection, powered by three specialized 
+                        deep learning models working together for comprehensive diagnosis.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="analyze.html" class="btn btn-hero-primary">
+                            <i class="fas fa-microscope"></i>
+                            Start Analysis Now
+                        </a>
+                        <a href="about.html" class="btn btn-hero-secondary">
+                            <i class="fas fa-info-circle"></i>
+                            Learn More
+                        </a>
+                    </div>
+                    <div class="hero-stats-inline">
+                        <div class="stat-inline">
+                            <span class="stat-number">96%</span>
+                            <span class="stat-label">Best Accuracy</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-inline">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">AI Models</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-inline">
+                            <span class="stat-number">3D</span>
+                            <span class="stat-label">Analysis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: 3D Model -->
+                <div class="hero-model">
+                    <div class="model-container">
+                        <div class="model-glow"></div>
+                        <iframe 
+                            title="Interactive 3D Lung Model" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; xr-spatial-tracking" 
+                            allowfullscreen
+                            src="https://sketchfab.com/models/df80810b0ee74d52813176165c51721c/embed?autostart=1&autospin=0.3&preload=1&ui_theme=dark&ui_hint=0&ui_infos=0&ui_inspector=0&ui_watermark_link=0&ui_watermark=0&ui_ar=0&ui_help=0&ui_settings=0&ui_vr=0&ui_fullscreen=0&ui_annotations=0&ui_stop=1&ui_fadeout=0&transparent=1&ui_loading=0&ui_start=0&camera=0&ui_controls=0&ui_animations=0"
+                            class="model-iframe">
+                        </iframe>
+                        <div class="model-controls-hint">
+                            <div class="control-item">
+                                <i class="fas fa-mouse"></i>
+                                <span>Rotate</span>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-search-plus"></i>
+                                <span>Zoom</span>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-hand-paper"></i>
+                                <span>Pan</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="mouse-icon">
+                <div class="wheel"></div>
+            </div>
+            <p>Scroll to explore</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="gradient-text">Cutting-Edge</span> Technology
+                </h2>
+                <p class="section-subtitle">
+                    Powered by advanced deep learning algorithms and medical imaging expertise
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3>Improved 3D CNN</h3>
+                    <p>Residual connections with Squeeze-Excitation blocks for robust baseline detection with 83.3% accuracy.</p>
+                    <div class="feature-tech">
+                        <span class="tech-badge">ResNet</span>
+                        <span class="tech-badge">SE Blocks</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>EfficientNet3D-B2</h3>
+                    <p>State-of-the-art compound scaling with MBConv blocks achieving 93.1% accuracy for advanced pattern recognition.</p>
+                    <div class="feature-tech">
+                        <span class="tech-badge">MBConv</span>
+                        <span class="tech-badge">Compound Scaling</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>DenseNet3D + Attention</h3>
+                    <p>Our best model with 95.7% accuracy, combining dense blocks and multi-head attention for exceptional efficiency.</p>
+                    <div class="feature-tech">
+                        <span class="tech-badge">Dense Blocks</span>
+                        <span class="tech-badge">4-Head Attention</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Multi-Model Ensemble</h3>
+                    <p>Three specialized AI models analyze each image simultaneously for comprehensive diagnostic consensus.</p>
+                    <div class="feature-tech">
+                        <span class="tech-badge">3 Models</span>
+                        <span class="tech-badge">Ensemble</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>High Performance</h3>
+                    <p>Best-in-class 95.7% accuracy with 0.78 F1 score, optimized for early cancer detection in medical screening.</p>
+                    <div class="feature-tech">
+                        <span class="tech-badge">95.7% Acc</span>
+                        <span class="tech-badge">0.78 F1</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Privacy & Security</h3>
+                    <p>All processing happens locally with no permanent data storage, ensuring complete patient confidentiality.</p>
+                    <div class="feature-tech">
+                        <span class="tech-badge">Local Processing</span>
+                        <span class="tech-badge">No Storage</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card-large">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="stat-value">95.7%</h3>
+                    <p class="stat-label">Best Accuracy</p>
+                    <p class="stat-description">DenseNet3D + Attention model</p>
+                </div>
+
+                <div class="stat-card-large">
+                    <div class="stat-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3 class="stat-value">0.78</h3>
+                    <p class="stat-label">Top F1 Score</p>
+                    <p class="stat-description">Best precision-recall balance</p>
+                </div>
+
+                <div class="stat-card-large">
+                    <div class="stat-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="stat-value">3</h3>
+                    <p class="stat-label">AI Models</p>
+                    <p class="stat-description">Ensemble intelligence system</p>
+                </div>
+
+                <div class="stat-card-large">
+                    <div class="stat-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="stat-value">673K</h3>
+                    <p class="stat-label">Parameters</p>
+                    <p class="stat-description">Efficient best model design</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    How It <span class="gradient-text">Works</span>
+                </h2>
+                <p class="section-subtitle">
+                    Simple, fast, and accurate lung cancer detection in three steps
+                </p>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <h3>Upload Medical Image</h3>
+                    <p>Upload CT scans or medical lung images in JPG, PNG, or DICOM format. Our system accepts various image formats for maximum flexibility.</p>
+                    <div class="step-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Triple-Model Analysis</h3>
+                    <p>Three specialized AI models (3D CNN, EfficientNet-B2, DenseNet+Attention) analyze your image simultaneously for comprehensive diagnosis.</p>
+                    <div class="step-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <h3>Get Expert Consensus</h3>
+                    <p>Receive detailed results from all three models with confidence scores, classifications, and visual indicators for informed decision-making.</p>
+                </div>
+            </div>
+
+            <div class="cta-center">
+                <a href="analyze.html" class="btn btn-hero-primary btn-large">
+                    <i class="fas fa-microscope"></i>
+                    Try Detection Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-card">
+                <div class="cta-content">
+                    <h2>Ready to Experience Advanced Multi-Model AI Detection?</h2>
+                    <p>Three specialized AI models working together. Up to 95.7% accuracy. Fast, comprehensive, and secure.</p>
+                    <div class="cta-buttons">
+                        <a href="analyze.html" class="btn btn-cta-primary">
+                            <i class="fas fa-rocket"></i>
+                            Get Started Now
+                        </a>
+                        <a href="about.html" class="btn btn-cta-secondary">
+                            <i class="fas fa-book"></i>
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="cta-decoration">
+                    <i class="fas fa-lungs"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <i class="fas fa-lungs"></i>
+                        <span>LungAI</span>
+                    </div>
+                    <p class="footer-description">
+                        Triple-model AI system powered by 3D CNN, EfficientNet3D-B2, and DenseNet3D+Attention 
+                        for comprehensive lung cancer detection with up to 95.7% accuracy.
+                    </p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="landing.html">Home</a></li>
+                        <li><a href="analyze.html">Analyze</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="about.html#technology">Technology</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-file-alt"></i> Documentation</a></li>
+                        <li><a href="#"><i class="fas fa-code"></i> GitHub</a></li>
+                        <li><a href="#"><i class="fas fa-book"></i> Research</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Disclaimer</h4>
+                    <p class="footer-disclaimer">
+                        This system is for research and educational purposes only. 
+                        Not a substitute for professional medical advice.
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 LungAI Detection System. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/landing.js"></script>
+</body>
+</html>

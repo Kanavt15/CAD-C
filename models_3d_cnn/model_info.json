@@ -1,0 +1,13 @@
+{
+    "model_name": "Improved 3D CNN with Residual + SE",
+    "architecture": "ResNet-style with Squeeze-and-Excitation blocks",
+    "input_shape": "(1, 64, 64, 64)",
+    "num_classes": 2,
+    "parameters": 33378882,
+    "test_accuracy": 83.33333333333333,
+    "test_f1_score": 0.6666666609777778,
+    "test_precision": 0.5555555549382716,
+    "test_recall": 0.8333333319444445,
+    "patch_size": 64,
+    "normalization": "HU clipping [-1000, 400] then normalize to [0, 1]"
+}
