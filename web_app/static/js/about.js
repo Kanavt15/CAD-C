@@ -40,14 +40,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
                         stop1.setAttribute('offset', '0%');
-                        stop1.setAttribute('stop-color', '#00d4ff');
+                        stop1.setAttribute('stop-color', '#e63946');
                         
                         const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-                        stop2.setAttribute('offset', '100%');
-                        stop2.setAttribute('stop-color', '#a855f7');
+                        stop2.setAttribute('offset', '50%');
+                        stop2.setAttribute('stop-color', '#f72585');
+
+                        const stop3 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                        stop3.setAttribute('offset', '100%');
+                        stop3.setAttribute('stop-color', '#3a86ff');
                         
                         gradient.appendChild(stop1);
                         gradient.appendChild(stop2);
+                        gradient.appendChild(stop3);
                         defs.appendChild(gradient);
                         svg.prepend(defs);
                     }
